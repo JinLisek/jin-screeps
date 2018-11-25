@@ -22,15 +22,14 @@ const harvest = (creep, source) =>
         ifNotZero(harvestResult, console.log, "ERROR: creep.harvest: " + harvestResult + ", position: " + source)
 }
 
+const isUpgrading = (creep) => creep.memory.upgrading
+
 
 
 
 const RoleFunctions =
 {
-    moveCreepToTarget:(creep, target) =>
-    {
-        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}})
-    },
+    moveCreepToTarget: (creep, target) => creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}}),
 
     findClosestActiveSource: (creep) => creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE),
 
@@ -49,11 +48,22 @@ const RoleFunctions =
             RoleFunctions.moveCreepToTarget(creep, controller) :
             ifNotZero(upgradeResult, console.log, "ERROR: creep.upgradeController: " + upgradeResult + ", position: " + controller)
     },
+
+    isFullInPercent: (creep, percent) => creep.carry.energy / creep.carryCapacity >= percent,
     
-    upgradeOrHarvest: (creep, shouldUpgrade) =>
-        shouldUpgrade(creep) ?
+    upgradeOrHarvest: (creep) =>
+        isUpgrading(creep) ?
             RoleFunctions.upgradeIfPossible(creep) :
             RoleFunctions.harvestIfPossible(creep, RoleFunctions.findClosestActiveSource),
+
+    calculateUpgradingState: (creep, percent) =>
+    {
+        return ! isUpgrading(creep) && RoleFunctions.isFullInPercent(creep, 0.33) ?
+            true :
+            isUpgrading(creep) && creep.carry.energy == 0 ?
+                false :
+                creep.memory.upgrading
+    },
     
     transferEnergyOrRest: (creep, targetFinder, restPos) => 
     {
