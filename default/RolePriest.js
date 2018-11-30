@@ -1,18 +1,18 @@
 const RoleFunctions = require('RoleFunctions');
 
-const upgradeController = (creep) =>
+const upgradeController = creep =>
 {
 	const controller = creep.room.controller
 	const upgradeResult = creep.upgradeController(controller)
 
 	upgradeResult == ERR_NOT_IN_RANGE ?
 		RoleFunctions.moveCreepToTarget(creep, controller) :
-		RoleFunctions.ifNotZero(upgradeResult, console.log, "ERROR: creep.upgradeController: " + upgradeResult + ", position: " + controller)
+		RoleFunctions.ifNotZero(upgradeResult, console.log, "ERROR: creep.upgradeController: " + upgradeResult + ", position: " + creep.pos)
 }
 
-const isUpgrading = (creep) => creep.memory.upgrading
+const isUpgrading = creep => creep.memory.upgrading
 
-const shouldUpgrade = (creep, percent) => RoleFunctions.isFullInPercent(creep, percent) || (isUpgrading(creep) && creep.carry.energy > 0)
+const shouldUpgrade = creep => (isUpgrading(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity
 
 
 
@@ -20,11 +20,11 @@ const shouldUpgrade = (creep, percent) => RoleFunctions.isFullInPercent(creep, p
 
 const RolePriest = {
     run: function(creep) {
-		creep.memory.upgrading = shouldUpgrade(creep, 0.33)
+		creep.memory.upgrading = shouldUpgrade(creep)
 
 	    isUpgrading(creep) ?
 			upgradeController(creep) :
-			RoleFunctions.harvestIfPossible(creep, RoleFunctions.findClosestActiveSource)
+			RoleFunctions.gatherEnergy(creep)
 	}
 };
 

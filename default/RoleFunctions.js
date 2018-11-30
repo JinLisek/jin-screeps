@@ -1,8 +1,4 @@
-const hasStructureEnergySpace = (structure) => structure.energy < structure.energyCapacity
-
-const isStructureEnergyBased = (structure) =>   structure.structureType == STRUCTURE_EXTENSION ||
-                                                structure.structureType == STRUCTURE_SPAWN ||
-                                                structure.structureType == STRUCTURE_TOWER
+const isStructNonEmptyContainer = struct => struct.structureType == STRUCTURE_CONTAINER && struct.store[RESOURCE_ENERGY] > 0
 
 const transferEnergy = (creep, target) =>
 {
@@ -18,6 +14,20 @@ const harvest = (creep, source) =>
     harvestResult == ERR_NOT_IN_RANGE ?
         RoleFunctions.moveCreepToTarget(creep, source) :
         RoleFunctions.ifNotZero(harvestResult, console.log, "ERROR: creep.harvest: " + harvestResult + ", position: " + source)
+}
+
+const withdrawEnergy = (creep, container) =>
+{
+    const withdrawResult = creep.withdraw(container, RESOURCE_ENERGY)
+    withdrawResult == ERR_NOT_IN_RANGE ?
+        RoleFunctions.moveCreepToTarget(creep, container) :
+        RoleFunctions.ifNotZero(withdrawResult, console.log, "ERROR: creep.withdraw: " + withdrawResult + ", position: " + creep.pos)
+}
+
+const pickupDroppedEnergy = (creep, droppedEnergy) =>
+{
+    creep.moveTo(droppedEnergy)
+    creep.pickup(droppedEnergy)
 }
 
 
@@ -51,8 +61,20 @@ const RoleFunctions =
     },
     
     canCreepCarryMore: (creep) => creep.carry.energy < creep.carryCapacity,
-    
-    canStructureBeFilledWithEnergy: (structure) => isStructureEnergyBased(structure) && hasStructureEnergySpace(structure)
+
+    gatherEnergy: creep =>
+    {
+        const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, { filter : energy => energy.amount > 50 && energy.resourceType == RESOURCE_ENERGY })[0]
+        if(droppedEnergy != undefined)
+            pickupDroppedEnergy(creep, droppedEnergy)
+        else
+        {
+            const energyContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: isStructNonEmptyContainer})
+            energyContainer == null ?
+                RoleFunctions.harvestIfPossible(creep, RoleFunctions.findClosestActiveSource) :
+                withdrawEnergy(creep, energyContainer)
+        }
+    }
 }
 
 module.exports = RoleFunctions;

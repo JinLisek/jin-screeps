@@ -6,19 +6,13 @@ const buildConstruction = creep =>
 
     if(target == undefined)
         RoleFunctions.moveCreepToTarget(creep, ArchitectRestPos);
-    else
-    {
-        const closestSource = RoleFunctions.findClosestActiveSource(creep);
-        if(creep.pos.getRangeTo(closestSource) < 3)
-            RoleFunctions.moveCreepToTarget(creep, ArchitectRestPos);
-        else if(creep.build(target) == ERR_NOT_IN_RANGE)
-            RoleFunctions.moveCreepToTarget(creep, target);
-    }        
+    else if(creep.build(target) == ERR_NOT_IN_RANGE)
+            RoleFunctions.moveCreepToTarget(creep, target);      
 }
 
 const isBuilding = creep => creep.memory.building
 
-const shouldBuild = (creep, percent) => RoleFunctions.isFullInPercent(creep, percent) || (isBuilding(creep) && creep.carry.energy > 0)
+const shouldBuild = creep => (isBuilding(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity
 
 const ArchitectRestPos = new RoomPosition(40, 15, "W32S11")
 
@@ -29,11 +23,11 @@ const ArchitectRestPos = new RoomPosition(40, 15, "W32S11")
 
 const RoleArchitect = {
     run: function(creep) {
-	    creep.memory.building = shouldBuild(creep, 0.33)
+	    creep.memory.building = shouldBuild(creep)
 
 	    isBuilding(creep) ?
             buildConstruction(creep) :
-            RoleFunctions.harvestIfPossible(creep, RoleFunctions.findClosestActiveSource)
+            RoleFunctions.gatherEnergy(creep)
 	}
 };
 

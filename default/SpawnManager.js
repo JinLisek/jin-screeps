@@ -1,9 +1,11 @@
+const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE], preferredNum: 2 }
 const peonSettings = { body: [WORK, WORK, CARRY, MOVE], preferredNum: 3 }
 const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 5 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
-const structureMaintainerSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 2 }
+const structureMaintainerSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 3 }
 
 const roleSettingsMap = new Map([
+    ['Miner', minerSettings],
     ['Peon', peonSettings],
     ['Priest', priestSettings],
     ['Architect', architectSettings],

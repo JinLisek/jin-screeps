@@ -2,6 +2,7 @@ const RoleArchitect = require('RoleArchitect');
 const RolePriest = require('RolePriest');
 const RolePeon = require('RolePeon');
 const RoleStructureMaintainer = require('RoleStructureMaintainer');
+const RoleMiner = require('RoleMiner');
 
  const RoleManager = {
 
@@ -22,6 +23,9 @@ const RoleStructureMaintainer = require('RoleStructureMaintainer');
                 }
                 if(creep.memory.role == 'StructureMaintainer') {
                     RoleStructureMaintainer.run(creep);
+                }
+                if(creep.memory.role == 'Miner') {
+                    RoleMiner.run(creep);
                 }
             }
         }
