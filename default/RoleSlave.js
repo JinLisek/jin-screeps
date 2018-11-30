@@ -1,6 +1,6 @@
 const RoleFunctions = require('RoleFunctions')
 
-const PeonRestPos = new RoomPosition(37, 3, "W32S11")
+const SlaveRestPos = new RoomPosition(37, 3, "W32S11")
 
 const hasStructureEnergySpace = struct => struct.energy < struct.energyCapacity
 
@@ -17,12 +17,12 @@ const canStructureBeFilledWithEnergy = struct => isStructureEnergyBased(struct) 
 
 
 
-const RolePeon = {
+const RoleSlave = {
     run: function(creep) {
 	    RoleFunctions.canCreepCarryMore(creep) ?
 		RoleFunctions.gatherEnergy(creep) :
-            RoleFunctions.transferEnergyOrRest(creep, canStructureBeFilledWithEnergy, PeonRestPos);
+            RoleFunctions.transferEnergyOrRest(creep, canStructureBeFilledWithEnergy, SlaveRestPos);
 	}
 };
 
-module.exports = RolePeon;
+module.exports = RoleSlave;

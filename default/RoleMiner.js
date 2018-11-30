@@ -5,11 +5,19 @@ const MinerResPost = new RoomPosition(44, 7, "W32S11")
 const isContainerNearby = structure =>
     structure.pos.findInRange(FIND_STRUCTURES, 1, { filter: struct => struct.structureType == STRUCTURE_CONTAINER }).length > 0
 
+const findMiningContainerForCreep = creep =>
+    creep.room.find(
+        FIND_STRUCTURES, 
+        {
+            filter: struct => 
+                struct.structureType == STRUCTURE_CONTAINER &&
+                struct.pos.findInRange(FIND_SOURCES, 1, { filter: source => source.id == creep.memory.miningSourceId}).length > 0
+        }
+    )[0]
+
 const mine = creep =>
 {
-    const targetContainer = creep.room.find(FIND_STRUCTURES, { filter: struct => 
-        struct.structureType == STRUCTURE_CONTAINER &&
-        struct.pos.findInRange(FIND_SOURCES, 1, { filter: { id: creep.memory.miningSourceId}})})[0]
+    const targetContainer = findMiningContainerForCreep(creep)
     
     if(creep.pos.getRangeTo(targetContainer) > 0)
         RoleFunctions.moveCreepToTarget(creep, targetContainer)
