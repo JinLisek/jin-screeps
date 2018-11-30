@@ -2,9 +2,9 @@ var PREFERRED_NUM_OF_PEONS = 3;
 var PREFERRED_NUM_OF_PRIESTS = 8;
 var PREFERRED_NUM_OF_ARCHITECTS = 4;
 
-let peonSettings = { body: [WORK, WORK, CARRY, MOVE] }
-let priestSettings = { body: [WORK, CARRY, MOVE, MOVE] }
-let architectSettings = { body: [WORK, CARRY, MOVE, MOVE] }
+let peonSettings = { body: [WORK, WORK, CARRY, MOVE], preferredNum: 3 }
+let priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 8 }
+let architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 
 let roleSettingsMap = new Map([
     ['Peon', peonSettings],
@@ -14,14 +14,10 @@ let roleSettingsMap = new Map([
 
 function spawnRole(role, preferredNumOfRole)
 {
-    creepsWithGivenRole = _.filter(Game.creeps, (creep) => creep.memory.role == role);
-
-    if(creepsWithGivenRole.length < preferredNumOfRole) {
-        var newName = role + ' ' + Game.time;
+    var newName = role + ' ' + Game.time;
         
-        if(Game.spawns['Byzantium'].spawnCreep(roleSettingsMap.get(role).body, newName, {memory: {role: role}}) >= 0)
-            console.log('Spawning new ' + role + ': ' + newName);
-    }
+    if(Game.spawns['Byzantium'].spawnCreep(roleSettingsMap.get(role).body, newName, {memory: {role: role}}) >= 0)
+    console.log('Spawning new ' + role + ': ' + newName);
     
     if(Game.spawns['Byzantium'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Byzantium'].spawning.name];
@@ -37,9 +33,14 @@ const SpawnManager = {
     
     run: function()
     {
-        spawnRole('Peon', PREFERRED_NUM_OF_PEONS);
-        spawnRole('Priest', PREFERRED_NUM_OF_PRIESTS);
-        spawnRole('Architect', PREFERRED_NUM_OF_ARCHITECTS);
+        const roles = roleSettingsMap.keys()
+        for(const role of roles)
+        {
+            const creepsWithGivenRole = _.filter(Game.creeps, (creep) => creep.memory.role == role);
+            if(creepsWithGivenRole.length >= roleSettingsMap.get(role).preferredNum)
+                break
+            spawnRole(role);
+        }
     }
 
 };
