@@ -5,7 +5,7 @@ const buildConstruction = creep =>
     const target = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
 
     if(target == undefined)
-        creep.memory.role = 'Priest'
+        RoleFunctions.moveCreepToTarget(creep, ArchitectRestPos);
     else
     {
         const closestSource = RoleFunctions.findClosestActiveSource(creep);

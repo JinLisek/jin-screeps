@@ -1,7 +1,7 @@
 const peonSettings = { body: [WORK, WORK, CARRY, MOVE], preferredNum: 3 }
 const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 5 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
-const structureMaintainerSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
+const structureMaintainerSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 2 }
 
 const roleSettingsMap = new Map([
     ['Peon', peonSettings],
@@ -34,8 +34,8 @@ const SpawnManager = {
         const roles = roleSettingsMap.keys()
         for(const role of roles)
         {
-            const numOfCreepsWithRole = _.filter(Game.creeps, (creep) => creep.memory.role == role);
-            if(numOfCreepsWithRole.length < roleSettingsMap.get(role).preferredNum)
+            const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role);
+            if(numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
             {
                 spawnRole(role);
                 break
