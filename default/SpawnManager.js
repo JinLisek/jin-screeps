@@ -1,11 +1,13 @@
 const peonSettings = { body: [WORK, WORK, CARRY, MOVE], preferredNum: 3 }
 const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 5 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
+const structureMaintainerSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 
 const roleSettingsMap = new Map([
     ['Peon', peonSettings],
     ['Priest', priestSettings],
-    ['Architect', architectSettings]
+    ['Architect', architectSettings],
+    ['StructureMaintainer', structureMaintainerSettings]
 ]);
 
 function spawnRole(role)

@@ -12,10 +12,7 @@ const upgradeController = (creep) =>
 
 const isUpgrading = (creep) => creep.memory.upgrading
 
-const shouldUpgrade = (creep, percent) =>
-{
-	return RoleFunctions.isFullInPercent(creep, percent) || (isUpgrading(creep) && creep.carry.energy > 0)
-}
+const shouldUpgrade = (creep, percent) => RoleFunctions.isFullInPercent(creep, percent) || (isUpgrading(creep) && creep.carry.energy > 0)
 
 
 
