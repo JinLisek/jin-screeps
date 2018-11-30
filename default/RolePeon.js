@@ -2,7 +2,7 @@ const RoleFunctions = require('RoleFunctions')
 
 const PeonRestPos = new RoomPosition(37, 3, "W32S11")
 
-const rolePeon = {
+const RolePeon = {
     run: function(creep) {
 	    RoleFunctions.canCreepCarryMore(creep) ?
 	        RoleFunctions.harvestIfPossible(creep, RoleFunctions.findClosestActiveSource) :
@@ -10,4 +10,4 @@ const rolePeon = {
 	}
 };
 
-module.exports = rolePeon;
+module.exports = RolePeon;

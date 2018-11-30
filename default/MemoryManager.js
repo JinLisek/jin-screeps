@@ -1,4 +1,4 @@
-module.exports = {
+const MemoryManager = {
 
     run: function()
     {
@@ -10,3 +10,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = MemoryManager;

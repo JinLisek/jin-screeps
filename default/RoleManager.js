@@ -1,8 +1,8 @@
-var roleArchitect = require('role.architect');
-var rolePriest = require('role.priest');
-var rolePeon = require('role.peon');
+const RoleArchitect = require('RoleArchitect');
+const RolePriest = require('RolePriest');
+const RolePeon = require('RolePeon');
 
-module.exports = {
+ const RoleManager = {
 
     run: function()
     {
@@ -11,15 +11,17 @@ module.exports = {
             if(! creep.spawning)
             {
                 if(creep.memory.role == 'Peon') {
-                    rolePeon.run(creep);
+                    RolePeon.run(creep);
                 }
                 if(creep.memory.role == 'Priest') {
-                    rolePriest.run(creep);
+                    RolePriest.run(creep);
                 }
                 if(creep.memory.role == 'Architect') {
-                    roleArchitect.run(creep);
+                    RoleArchitect.run(creep);
                 }
             }
         }
     }
 };
+
+module.exports = RoleManager;
