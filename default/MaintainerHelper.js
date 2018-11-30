@@ -1,12 +1,21 @@
 const RoleFunctions = require('RoleFunctions')
 
-const isFortificationMineAndDamaged = struct => MaintainerHelper.isStructMine(struct) && MaintainerHelper.isStructFortification(struct)
+const isStructDamagedFortification = (structureType, percent) => struct =>
+    MaintainerHelper.isStructMine(struct) &&
+    struct.structureType == structureType && 
+    hasLessHitsThanPercent(percent)(struct)
 
 const hasLessHitsThanPercent = percent => struct => struct.hits / struct.hitsMax < percent
 
+const findFortificationWithLowestHits2 = (creep, iteration, percent) =>
+{
+    const fortificationsBuckets = new Map()
+}
+
 const findFortificationWithLowestHits = (creep, iteration, percent) =>
 {
-    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isFortificationMineAndDamaged(struct) && hasLessHitsThanPercent(percent)(struct)})
+    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct =>
+        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 10)(struct) || isStructDamagedFortification(STRUCTURE_WALL, percent)(struct)})
     const newPercent = percent + iteration
 
     return target == undefined ?
@@ -27,12 +36,12 @@ const MaintainerHelper = {
 
     repairFortifications: creep => 
     {
-        const target = findFortificationWithLowestHits(creep, 0.000001, 0.000001)
+        const target = findFortificationWithLowestHits(creep, 0.0001, 0.0001)
 
         if(target != undefined)
         {
-            RoleFunctions.moveCreepToTarget(creep, target)
-            creep.repair(target)
+            if(creep.repair(target) == ERR_NOT_IN_RANGE)
+                RoleFunctions.moveCreepToTarget(creep, target);
         }
         else
             RoleFunctions.moveCreepToTarget(creep, MaintainerRestPos)  

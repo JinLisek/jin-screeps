@@ -5,7 +5,7 @@ const MaintainerHelper = require('MaintainerHelper')
 
 
 
-const RoleWallMaintainer = {
+const RoleFortificationMaintainer = {
     run: function(creep) {
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
 
@@ -15,4 +15,4 @@ const RoleWallMaintainer = {
 	}
 };
 
-module.exports = RoleWallMaintainer;
+module.exports = RoleFortificationMaintainer;

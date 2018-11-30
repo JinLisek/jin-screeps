@@ -64,7 +64,7 @@ const RoleFunctions =
 
     gatherEnergy: creep =>
     {
-        const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, { filter : energy => energy.amount >= creep.carryCapacity && energy.resourceType == RESOURCE_ENERGY })[0]
+        const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, { filter : resource => resource.amount >= creep.carryCapacity && resource.resourceType == RESOURCE_ENERGY })
         if(droppedEnergy != undefined)
             pickupDroppedEnergy(creep, droppedEnergy)
         else

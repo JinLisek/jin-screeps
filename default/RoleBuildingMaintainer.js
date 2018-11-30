@@ -11,19 +11,17 @@ const repairBuilding = creep =>
     const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: isBuildingMineAndDamaged})
 
     if(target == undefined)
-    MaintainerHelper.repairFortifications(creep)
+        MaintainerHelper.repairFortifications(creep)
     else if(creep.repair(target) == ERR_NOT_IN_RANGE)
         RoleFunctions.moveCreepToTarget(creep, target)  
 }
 
-const MaintainerRestPos = new RoomPosition(47, 11, "W32S11")
 
 
 
 
 
-
-const RoleStructureMaintainer = {
+const RoleBuildingMaintainer = {
     run: function(creep) {
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
 
@@ -33,4 +31,4 @@ const RoleStructureMaintainer = {
 	}
 };
 
-module.exports = RoleStructureMaintainer;
+module.exports = RoleBuildingMaintainer;

@@ -20,7 +20,7 @@ const canStructureBeFilledWithEnergy = struct => isStructureEnergyBased(struct) 
 const RoleSlave = {
     run: function(creep) {
 	    RoleFunctions.canCreepCarryMore(creep) ?
-		RoleFunctions.gatherEnergy(creep) :
+			RoleFunctions.gatherEnergy(creep) :
             RoleFunctions.transferEnergyOrRest(creep, canStructureBeFilledWithEnergy, SlaveRestPos);
 	}
 };
