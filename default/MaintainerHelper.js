@@ -12,14 +12,23 @@ const findFortificationWithLowestHits2 = (creep, iteration, percent) =>
     const fortificationsBuckets = new Map()
 }
 
-const findFortificationWithLowestHits = (creep, iteration, percent) =>
+const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
 {
     const target = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct =>
-        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 10)(struct) || isStructDamagedFortification(STRUCTURE_WALL, percent)(struct)})
+        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 100)(struct) || isStructDamagedFortification(STRUCTURE_WALL, percent)(struct)})
+    
     const newPercent = percent + iteration
+    const newDepth = depth + 1
+
+    if(depth >= 20)
+    {
+        console.log("MAXIMUM DEPTH REACHED")
+        return undefined
+    }
+        
 
     return target == undefined ?
-        findFortificationWithLowestHits(creep, iteration, newPercent ) :
+        findFortificationWithLowestHits(creep, iteration, newPercent, newDepth ) :
         target
 }
 
@@ -36,7 +45,7 @@ const MaintainerHelper = {
 
     repairFortifications: creep => 
     {
-        const target = findFortificationWithLowestHits(creep, 0.0001, 0.0001)
+        const target = findFortificationWithLowestHits(creep, 0.0001, 0.0001, 0)
 
         if(target != undefined)
         {
