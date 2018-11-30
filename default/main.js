@@ -1,6 +1,6 @@
-var spawnManager = require('SpawnManager');
-var memoryManager = require('MemoryManager');
-var roleManager = require('RoleManager');
+const spawnManager = require('SpawnManager');
+const memoryManager = require('MemoryManager');
+const roleManager = require('RoleManager');
 
 module.exports.loop = function () {
     spawnManager.run();

@@ -1,8 +1,8 @@
-var RoleFunctions = require('RoleFunctions');
+const RoleFunctions = require('RoleFunctions');
 
 const ArchitectRestPos = new RoomPosition(40, 15, "W32S11")
 
-var RoleArchitect = {
+const RoleArchitect = {
     run: function(creep) {
 	    if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -12,9 +12,9 @@ var RoleArchitect = {
 	    }
 
 	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+	        const targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
             if(targets.length > 0) {
-                var closestSource = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+                const closestSource = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
                 if(creep.pos.getRangeTo(closestSource) < 3)
                     RoleFunctions.moveCreepToTarget(creep, ArchitectRestPos);
                 else if(creep.build(targets[0]) == ERR_NOT_IN_RANGE)
@@ -26,7 +26,7 @@ var RoleArchitect = {
             }
 	    }
 	    else {
-	        var closestSource = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            const closestSource = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
                 RoleFunctions.moveCreepToTarget(creep, closestSource);
             }

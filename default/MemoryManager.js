@@ -2,10 +2,10 @@ const MemoryManager = {
 
     run: function()
     {
-        for(var name in Memory.creeps) {
-            if(!Game.creeps[name]) {
-                delete Memory.creeps[name];
-                console.log('Clearing non-existing creep memory:', name);
+        for(const creepName in Memory.creeps) {
+            if(Game.creeps[creepName] == undefined) {
+                delete Memory.creeps[creepName];
+                console.log('Clearing non-existing creep memory:', creepName);
             }
         }
     }

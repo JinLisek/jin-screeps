@@ -6,9 +6,9 @@ const RolePeon = require('RolePeon');
 
     run: function()
     {
-        for(var name in Game.creeps) {
-            var creep = Game.creeps[name];
-            if(! creep.spawning)
+        for(const creepName in Game.creeps) {
+            const creep = Game.creeps[creepName];
+            if(creep.spawning == false)
             {
                 if(creep.memory.role == 'Peon') {
                     RolePeon.run(creep);
