@@ -2,14 +2,16 @@ const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], prefer
 const slaveSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
 const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 5 }
 const architectSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
-const structureMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
+const structureMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
+const wallMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
 
 const roleSettingsMap = new Map([
     ['Miner', minerSettings],
     ['Slave', slaveSettings],
     ['Priest', priestSettings],
     ['Architect', architectSettings],
-    ['StructureMaintainer', structureMaintainerSettings]
+    ['StructureMaintainer', structureMaintainerSettings],
+    ['WallMaintainer', wallMaintainerSettings]
 ]);
 
 const spawnRole = role =>
