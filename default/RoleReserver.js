@@ -1,13 +1,13 @@
 const RoleFunctions = require('RoleFunctions')
 
 
-
-const ExitWest = new RoomPosition(0, 9, "W32S11")
-
 const RoleReserver = {
     run: function(creep) {
         if(creep.room.controller.owner != undefined && creep.room.controller.owner.username == 'JinLisek')
-            RoleFunctions.moveCreepToTarget(creep, ExitWest)
+        {
+            const exitLeft = creep.pos.findClosestByPath(FIND_EXIT_LEFT);
+            RoleFunctions.moveCreepToTarget(creep, exitLeft)
+        }
         else
         {
             creep.reserveController(creep.room.controller)

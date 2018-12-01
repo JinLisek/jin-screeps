@@ -27,14 +27,19 @@ const SpawnManager = {
     
     run: function()
     {
-        const roles = roleSettingsMap.keys()
-        for(const role of roles)
+        for(const spawnName in Game.spawns)
         {
-            const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role);
-            if(numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+            const spawn = Game.spawns[spawnName]
+
+            const roles = roleSettingsMap.keys()
+            for(const role of roles)
             {
-                spawnRole(role);
-                break
+                const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role);
+                if(numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                {
+                    spawnRole(role);
+                    break
+                }
             }
         }
     }

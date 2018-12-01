@@ -7,10 +7,6 @@ const isStructDamagedFortification = (structureType, percent) => struct =>
 
 const hasLessHitsThanPercent = percent => struct => struct.hits / struct.hitsMax < percent
 
-const findFortificationWithLowestHits2 = (creep, iteration, percent) =>
-{
-    const fortificationsBuckets = new Map()
-}
 
 const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
 {
@@ -45,7 +41,7 @@ const MaintainerHelper = {
 
     repairFortifications: creep => 
     {
-        const target = findFortificationWithLowestHits(creep, 0.0001, 0.0001, 0)
+        const target = findFortificationWithLowestHits(creep, 0.0002, 0.0001, 0)
 
         if(target != undefined)
         {
