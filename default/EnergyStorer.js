@@ -23,7 +23,7 @@ const storeEnergy = creep =>
 {
 	const target = creep.room.find(
 		FIND_STRUCTURES, 
-		{filter: struct => struct.structureType == STRUCTURE_STORAGE && hasStructureEnergySpace(struct)})[0];
+		{filter: struct => struct.structureType == STRUCTURE_STORAGE && struct.store[RESOURCE_ENERGY] < struct.storeCapacity})[0];
 	
     target == undefined ?
         RoleFunctions.moveCreepToTarget(creep, SlaveRestPos) :

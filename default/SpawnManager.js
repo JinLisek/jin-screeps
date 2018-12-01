@@ -1,19 +1,19 @@
 const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], preferredNum: 2 }
-const slaveSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 3 }
+const slaveSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const structureMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
 const wallMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
 const roleLongMinerSettings = { body: [WORK, WORK, MOVE, MOVE], preferredNum: 2 }
-const roleLongSlaveSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 3 }
+const roleHaulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 3 }
 
 const roleSettingsMap = new Map([
     ['Slave', slaveSettings],
     ['Miner', minerSettings],
     ['Priest', priestSettings],
     ['LongMiner', roleLongMinerSettings],
-    ['LongSlave', roleLongSlaveSettings],
+    ['Hauler', roleHaulerSettings],
     ['Architect', architectSettings],
     ['StructureMaintainer', structureMaintainerSettings],
     ['WallMaintainer', wallMaintainerSettings],

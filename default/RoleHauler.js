@@ -2,7 +2,7 @@ const RoleFunctions = require('RoleFunctions')
 const EnergyStorer = require('EnergyStorer')
 const EnergyGatherer = require('EnergyGatherer')
 
-const RoleLongSlave = {
+const RoleHauler = {
     run: function(creep) {
         if(creep.memory.workRoom == undefined)
             creep.memory.workRoom = 'W33S11'
@@ -25,4 +25,4 @@ const RoleLongSlave = {
 	}
 };
 
-module.exports = RoleLongSlave;
+module.exports = RoleHauler;
