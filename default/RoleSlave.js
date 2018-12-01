@@ -1,5 +1,5 @@
 const RoleFunctions = require('RoleFunctions')
-const SlaveHelper = require('SlaveHelper')
+const EnergyStorer = require('EnergyStorer')
 
 
 
@@ -7,7 +7,7 @@ const RoleSlave = {
     run: function(creep) {
 	    RoleFunctions.canCreepCarryMore(creep) ?
 			RoleFunctions.gatherEnergy(creep) :
-            SlaveHelper.storeEnergyInStructures(creep);
+            EnergyStorer.storeEnergyInStructures(creep);
 	}
 };
 

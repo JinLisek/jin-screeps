@@ -30,7 +30,7 @@ const storeEnergy = creep =>
         transferEnergy(creep, target)
 }
 
-const SlaveHelper =
+const EnergyStorer =
 {
     storeEnergyInStructures: creep => 
     {
@@ -41,4 +41,4 @@ const SlaveHelper =
     }
 }
 
-module.exports = SlaveHelper
+module.exports = EnergyStorer

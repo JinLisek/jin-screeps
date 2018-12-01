@@ -1,5 +1,5 @@
 const RoleFunctions = require('RoleFunctions')
-const SlaveHelper = require('SlaveHelper')
+const EnergyStorer = require('EnergyStorer')
 
 const isEnoughEnergyInResourceForCreep = resource => resource.amount > 0 && resource.resourceType == RESOURCE_ENERGY
 
@@ -49,7 +49,7 @@ const RoleLongSlave = {
         {
             const exitLeft = creep.pos.findClosestByPath(FIND_EXIT_LEFT)
             creep.carry.energy > 0 ?
-                SlaveHelper.storeEnergyInStructures(creep) :
+                EnergyStorer.storeEnergyInStructures(creep) :
                 RoleFunctions.moveCreepToTarget(creep, exitLeft)    
         }
 	}
