@@ -18,7 +18,7 @@ const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
 
     if(depth >= 20)
     {
-        console.log("MAXIMUM DEPTH REACHED")
+        console.log("MAXIMUM DEPTH REACHED at: " + creep.pos)
         return undefined
     }
         
@@ -34,7 +34,7 @@ const MaintainerRestPos = new RoomPosition(29, 11, "W32S11")
 
 
 const MaintainerHelper = {
-    isStructMine: struct => (struct.room.controller.reservation != undefined && struct.room.controller.reservation.username == ' JinLisek') || struct.room.controller.owner.username == 'JinLisek',
+    isStructMine: struct => (struct.room.controller.reservation != undefined && struct.room.controller.reservation.username == ' JinLisek') || (struct.room.controller.owner != undefined && struct.room.controller.owner.username == 'JinLisek'),
     isStructFortification: struct => struct.structureType == STRUCTURE_RAMPART || struct.structureType == STRUCTURE_WALL,
     isRepairing: creep => creep.memory.isRepairing,
     shouldRepair: creep => (MaintainerHelper.isRepairing(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity,

@@ -6,7 +6,7 @@ const structureMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOV
 const wallMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
 const roleLongMinerSettings = { body: [WORK, WORK, MOVE, MOVE], preferredNum: 2 }
-const roleLongSlaveSettings = { body: [CARRY, CARRY, MOVE, MOVE], preferredNum: 3 }
+const roleLongSlaveSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 3 }
 
 const roleSettingsMap = new Map([
     ['Slave', slaveSettings],
