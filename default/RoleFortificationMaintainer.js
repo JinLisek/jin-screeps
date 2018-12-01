@@ -1,5 +1,5 @@
-const RoleFunctions = require('RoleFunctions')
 const MaintainerHelper = require('MaintainerHelper')
+const EnergyGatherer = require('EnergyGatherer')
 
 
 
@@ -11,7 +11,7 @@ const RoleFortificationMaintainer = {
 
         MaintainerHelper.isRepairing(creep) ?
             MaintainerHelper.repairFortifications(creep) :
-            RoleFunctions.gatherEnergy(creep)
+            EnergyGatherer.gatherEnergy(creep)
 	}
 };
 

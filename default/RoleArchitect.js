@@ -1,4 +1,5 @@
-const RoleFunctions = require('RoleFunctions');
+const RoleFunctions = require('RoleFunctions')
+const EnergyGatherer = require('EnergyGatherer')
 
 const buildConstruction = creep =>
 {
@@ -27,7 +28,7 @@ const RoleArchitect = {
 
 	    isBuilding(creep) ?
             buildConstruction(creep) :
-            RoleFunctions.gatherEnergy(creep)
+            EnergyGatherer.gatherEnergy(creep)
 	}
 };
 

@@ -1,4 +1,5 @@
-const RoleFunctions = require('RoleFunctions');
+const RoleFunctions = require('RoleFunctions')
+const EnergyGatherer = require('EnergyGatherer')
 
 const upgradeController = creep =>
 {
@@ -24,7 +25,7 @@ const RolePriest = {
 
 	    isUpgrading(creep) ?
 			upgradeController(creep) :
-			RoleFunctions.gatherEnergy(creep)
+			EnergyGatherer.gatherEnergy(creep)
 	}
 };
 

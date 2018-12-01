@@ -1,5 +1,6 @@
 const RoleFunctions = require('RoleFunctions')
 const MaintainerHelper = require('MaintainerHelper')
+const EnergyGatherer = require('EnergyGatherer')
 
 const isStructDamaged = struct => struct.hits < struct.hitsMax
 const isStructMineAndDamaged = struct => isStructDamaged(struct) && MaintainerHelper.isStructMine(struct)
@@ -27,7 +28,7 @@ const RoleBuildingMaintainer = {
 
         MaintainerHelper.isRepairing(creep) ?
             repairBuilding(creep) :
-            RoleFunctions.gatherEnergy(creep)
+            EnergyGatherer.gatherEnergy(creep)
 	}
 };
 

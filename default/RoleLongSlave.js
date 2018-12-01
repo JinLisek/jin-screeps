@@ -24,8 +24,7 @@ const gatherEnergyInReservedRoom = creep =>
     else
     {
         const energyContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInContainerForCreep(struct) })
-        energyContainer == null ?
-            RoleFunctions.harvestIfPossible(creep, findClosestActiveSourceInReservedRoom) :
+        if(energyContainer != null)
             withdrawEnergy(creep, energyContainer)
     }
 }
