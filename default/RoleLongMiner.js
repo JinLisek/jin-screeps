@@ -15,10 +15,7 @@ const RoleLongMiner = {
                 RoleFunctions.moveCreepToTarget(creep, source)
         }
         else
-        {
-            const exitLeft = creep.pos.findClosestByPath(FIND_EXIT_LEFT)
-            RoleFunctions.moveCreepToTarget(creep, exitLeft)
-        }
+            RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.workRoom].controller)
 	}
 };
 
