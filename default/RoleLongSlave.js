@@ -1,35 +1,6 @@
 const RoleFunctions = require('RoleFunctions')
 const EnergyStorer = require('EnergyStorer')
-
-const isEnoughEnergyInResourceForCreep = resource => resource.amount > 0 && resource.resourceType == RESOURCE_ENERGY
-
-const isEnoughEnergyInContainerForCreep = struct => struct.structureType == STRUCTURE_CONTAINER && struct.store[RESOURCE_ENERGY] > 0
-
-const findClosestActiveSourceInReservedRoom = creep => creep.pos.findClosestByPath(
-    FIND_SOURCES_ACTIVE,
-    {filter: source => source.room.controller.reservation.username == 'JinLisek'}
-)
-
-const pickupDroppedEnergy = (creep, droppedEnergy) =>
-{
-    RoleFunctions.moveCreepToTarget(creep, droppedEnergy)
-    creep.pickup(droppedEnergy)
-}
-
-const gatherEnergyInReservedRoom = creep =>
-{
-    const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, { filter : resource => isEnoughEnergyInResourceForCreep(resource) })
-    if(droppedEnergy != undefined)
-        pickupDroppedEnergy(creep, droppedEnergy)
-    else
-    {
-        const energyContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInContainerForCreep(struct) })
-        if(energyContainer != null)
-            withdrawEnergy(creep, energyContainer)
-    }
-}
-
-
+const EnergyGatherer = require('EnergyGatherer')
 
 const RoleLongSlave = {
     run: function(creep) {
@@ -40,7 +11,7 @@ const RoleLongSlave = {
         {
             const exitRight = creep.pos.findClosestByPath(FIND_EXIT_RIGHT)
             RoleFunctions.canCreepCarryMore(creep) ?
-                gatherEnergyInReservedRoom(creep) :
+                EnergyGatherer.gatherEnergy(creep) :
                 RoleFunctions.moveCreepToTarget(creep, exitRight)
 
         }
