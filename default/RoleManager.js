@@ -5,6 +5,8 @@ const RoleBuildingMaintainer = require('RoleBuildingMaintainer');
 const RoleFortificationMaintainer = require('RoleFortificationMaintainer');
 const RoleMiner = require('RoleMiner');
 const RoleReserver = require('RoleReserver');
+const RoleLongMiner = require('RoleLongMiner');
+const RoleLongSlave = require('RoleLongSlave')
 
  const RoleManager = {
 
@@ -34,6 +36,12 @@ const RoleReserver = require('RoleReserver');
                 }
                 if(creep.memory.role == 'Reserver') {
                     RoleReserver.run(creep);
+                }
+                if(creep.memory.role == 'LongMiner') {
+                    RoleLongMiner.run(creep);
+                }
+                if(creep.memory.role == 'LongSlave') {
+                    RoleLongSlave.run(creep);
                 }
             }
         }

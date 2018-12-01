@@ -34,7 +34,6 @@ const RoleMiner = {
     run: function(creep) {
         if(creep.memory.miningSourceId == undefined)
         {
-            RoleFunctions.moveCreepToTarget(creep, MinerResPost)
             const sourcesWithContainersInRoom = creep.room.find(FIND_SOURCES,{ filter: source => isContainerNearby(source) })
             const minersInRoom = creep.room.find(FIND_MY_CREEPS, { filter: c => c.memory.role == "Miner" })
     

@@ -19,10 +19,19 @@ const transferEnergy = (creep, target) =>
         RoleFunctions.ifNotZero(transferResult, console.log, "ERROR: creep.transfer: " + transferResult)
 }
 
-const transferEnergyOrRest= (creep, restPos) => 
+const storeEnergy = creep =>
+{
+	const target = creep.room.find(
+		FIND_STRUCTURES, 
+		{filter: struct => struct.structureType == STRUCTURE_STORAGE && hasStructureEnergySpace(struct)})[0];
+	
+	target != undefined ? transferEnergy(creep, target) : RoleFunctions.moveCreepToTarget(creep, SlaveRestPos)
+}
+
+const transferEnergyOrRest = (creep) => 
 {
 	const targets = creep.room.find(FIND_STRUCTURES, {filter: canStructureBeFilledWithEnergy});
-	targets.length > 0 ? transferEnergy(creep, targets[0]) : RoleFunctions.moveCreepToTarget(creep, restPos);
+	targets.length > 0 ? transferEnergy(creep, targets[0]) : storeEnergy(creep);
 }
 
 

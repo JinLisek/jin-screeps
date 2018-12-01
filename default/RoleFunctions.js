@@ -1,6 +1,9 @@
 const isEnoughEnergyInResourceForCreep = resource => resource.amount > 0 && resource.resourceType == RESOURCE_ENERGY
 
-const isEnoughEnergyInContainerForCreep = struct => struct.structureType == STRUCTURE_CONTAINER && struct.store[RESOURCE_ENERGY] > 0
+const isEnoughEnergyInContainerForCreep = struct =>
+    (struct.structureType == STRUCTURE_STORAGE ||
+    struct.structureType == STRUCTURE_CONTAINER) &&
+    struct.store[RESOURCE_ENERGY] > 0
 
 const harvest = (creep, source) =>
 {
