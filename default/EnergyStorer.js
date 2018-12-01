@@ -30,6 +30,10 @@ const storeEnergy = creep =>
         transferEnergy(creep, target)
 }
 
+
+
+
+
 const EnergyStorer =
 {
     storeEnergyInStructures: creep => 

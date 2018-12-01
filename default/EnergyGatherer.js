@@ -1,8 +1,8 @@
 const RoleFunctions = require('RoleFunctions')
 
-const isEnoughEnergyInResourceForCreep = resource => resource.amount > 0 && resource.resourceType == RESOURCE_ENERGY
+const isEnoughEnergyInResourceForCreep = creep => resource => resource.amount > creep.carryCapacity && resource.resourceType == RESOURCE_ENERGY
 
-const isEnoughEnergyInContainerForCreep = struct =>
+const isEnoughEnergyInStructureForCreep = struct =>
     (struct.structureType == STRUCTURE_STORAGE ||
     struct.structureType == STRUCTURE_CONTAINER) &&
     struct.store[RESOURCE_ENERGY] > 0
@@ -22,16 +22,18 @@ const pickupDroppedEnergy = (creep, droppedEnergy) =>
 }
 
 
+
+
 const EnergyGatherer =
 {
     gatherEnergy: creep =>
     {
-        const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, { filter : resource => isEnoughEnergyInResourceForCreep(resource) })
+        const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, { filter : resource => isEnoughEnergyInResourceForCreep(creep)(resource) })
         if(droppedEnergy != undefined)
             pickupDroppedEnergy(creep, droppedEnergy)
         else
         {
-            const energyContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInContainerForCreep(struct) })
+            const energyContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInStructureForCreep(struct) })
             if(energyContainer != null)
                 withdrawEnergy(creep, energyContainer)
         }
