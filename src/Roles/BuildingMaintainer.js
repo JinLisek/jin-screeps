@@ -13,10 +13,15 @@ const isStructureDamaged = creep => struct =>
 
 const findBuildingOrFortificationToRepair = creep =>
 {
-    const structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})
+    const structure = Game.rooms[creep.memory.homeRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})[0]
 
     if(structure != undefined)
         return structure
+
+    const structureInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})[0]
+
+    if(structureInWorkRoom != undefined)
+        return structureInWorkRoom
     
     return MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
 }

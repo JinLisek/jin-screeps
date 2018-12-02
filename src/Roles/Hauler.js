@@ -10,13 +10,7 @@ const Hauler =
 {
     run: creep =>
     {
-        if(creep.memory.workRoom == undefined)
-            creep.memory.workRoom = 'W33S11'
-        
-        if(creep.memory.homeRoom == undefined)
-            creep.memory.homeRoom = 'W32S11'
-        
-        if(creep.room.name == creep.memory.workRoom)
+               if(creep.room.name == creep.memory.workRoom)
         {
             RoleFunctions.canCreepCarryMore(creep) ?
                 EnergyGatherer.gatherEnergy(creep) :

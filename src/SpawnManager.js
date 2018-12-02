@@ -1,9 +1,9 @@
 const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], preferredNum: 2 }
 const slaveSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
-const priestSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
+const priestSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE], preferredNum: 4 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
-const structureMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
-const wallMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
+const buildingMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 6 }
+const fortificationMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 4 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
 const roleLongMinerSettings = { body: [WORK, WORK, MOVE, MOVE], preferredNum: 2 }
 const roleHaulerSettings = { body: [CARRY, CARRY, MOVE, MOVE], preferredNum: 4 }
@@ -15,15 +15,16 @@ const roleSettingsMap = new Map([
     ['LongMiner', roleLongMinerSettings],
     ['Hauler', roleHaulerSettings],
     ['Architect', architectSettings],
-    ['BuildingMaintainer', structureMaintainerSettings],
-    ['FortificationMaintainer', wallMaintainerSettings],
+    ['BuildingMaintainer', buildingMaintainerSettings],
+    ['FortificationMaintainer', fortificationMaintainerSettings],
     ['Reserver', reserverSettings]
 ]);
 
-const spawnRole = role =>
+const spawnRole = (spawn, role) =>
 {
     const creepName = role + ' ' + Game.time;
-    if(Game.spawns['Byzantium'].spawnCreep(roleSettingsMap.get(role).body, creepName, {memory: {role: role}}) >= 0)
+
+    if(spawn.spawnCreep(roleSettingsMap.get(role).body, creepName, {memory: {role: role, homeRoom: spawn.room.name, workRoom: 'W33S11'}}) >= 0)
         console.log('Spawning new ' + role + ': ' + creepName);
 }
 
@@ -34,14 +35,13 @@ const SpawnManager = {
         for(const spawnName in Game.spawns)
         {
             const spawn = Game.spawns[spawnName]
-
             const roles = roleSettingsMap.keys()
             for(const role of roles)
             {
                 const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role);
                 if(numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
                 {
-                    spawnRole(role);
+                    spawnRole(spawn, role);
                     break
                 }
             }

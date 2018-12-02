@@ -1,7 +1,17 @@
 const RoleFunctions = require('RoleFunctions')
 const EnergyGatherer = require('EnergyGatherer')
 
-const findMyClosestConstructionSite = creep => creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES)
+const findMyClosestConstructionSite = creep =>
+{
+    const constructionSite = Game.rooms[creep.memory.homeRoom].find(FIND_MY_CONSTRUCTION_SITES)[0]
+
+    if(constructionSite != undefined)
+        return constructionSite
+    
+    const constructionSiteInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_MY_CONSTRUCTION_SITES)[0]
+
+    return constructionSiteInWorkRoom
+}
 
 const creepBuildTarget = (creep, target) =>
 {
