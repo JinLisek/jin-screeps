@@ -15,22 +15,16 @@ const RoleFunctions =
 
     findTargeIdtIfNoLongerValid: (creep, targetFinder, predIfTargetValid) =>
     {
-        const target = (Game.getObjectById(creep.memory.targetId))
+        const target = Game.getObjectById(creep.memory.targetId)
 
         if(target == undefined || predIfTargetValid(target) == false)
         {
             const newTarget = targetFinder(creep)
             if(newTarget != undefined)
                 return newTarget.id
-            else
-            {
-                console.log("NEW TARGET IS UNDEFINED")
-            }
         }
         else
-        {
             return creep.memory.targetId
-        }
     },
 
     moveCreepToTargetThenDoAction: (creep, target, action, actionIfTargetUndefined) =>

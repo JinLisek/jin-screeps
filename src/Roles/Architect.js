@@ -22,7 +22,6 @@ const shouldBuild = creep => (isBuilding(creep) && creep.carry.energy > 0) || cr
 
 const restIfTargetNotFound = creep =>
 {
-    console.log("ERROR: Construction failed due to undefined target. Creep going to rest")
     RoleFunctions.moveCreepToTarget(creep, new RoomPosition(41, 27, 'W32S11'))
 }
 

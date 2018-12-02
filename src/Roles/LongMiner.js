@@ -1,6 +1,13 @@
 const RoleFunctions = require('RoleFunctions')
 
+const findClosestActiveSource = creep =>  creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE)
 
+const creepHarvestTarget = (creep, target) => creep.harvest(target)
+
+const restIfTargetNotFound = creep =>
+{
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(36, 29, 'W33S11'))
+}
 
 const LongMiner =
 {
@@ -11,10 +18,14 @@ const LongMiner =
         
         if(creep.room.name == creep.memory.workRoom)
         {
-            const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE)
-            const harvestResult = creep.harvest(source)
-            if(harvestResult == ERR_NOT_IN_RANGE)
-                RoleFunctions.moveCreepToTarget(creep, source)
+            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+                creep,
+                findClosestActiveSource,
+                target => true)
+    
+            const harvestTarget = Game.getObjectById(creep.memory.targetId)
+    
+            RoleFunctions.moveCreepToTargetThenDoAction(creep, harvestTarget, creepHarvestTarget, restIfTargetNotFound)
         }
         else
             RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.workRoom].controller)
