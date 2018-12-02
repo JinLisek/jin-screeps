@@ -8,6 +8,9 @@ const MemoryManager = {
                 console.log('Clearing non-existing creep memory:', creepName);
             }
         }
+
+        if(Memory.sources == undefined)
+            Memory.sources = new Map()
     }
 };
 

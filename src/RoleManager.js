@@ -5,7 +5,6 @@ const BuildingMaintainer = require('Roles_BuildingMaintainer')
 const FortificationMaintainer = require('Roles_FortificationMaintainer')
 const Miner = require('Roles_Miner')
 const Reserver = require('Roles_Reserver')
-const LongMiner = require('Roles_LongMiner')
 const Hauler = require('Roles_Hauler')
 
  const RoleManager = {
@@ -30,8 +29,6 @@ const Hauler = require('Roles_Hauler')
                     FortificationMaintainer.run(creep)
                 else if(creep.memory.role == 'Reserver')
                     Reserver.run(creep)
-                else if(creep.memory.role == 'LongMiner')
-                    LongMiner.run(creep)
                 else if(creep.memory.role == 'Hauler')
                     Hauler.run(creep)
                 else
