@@ -2,8 +2,10 @@ const RoleFunctions = require('RoleFunctions')
 
 
 
-const RoleLongMiner = {
-    run: function(creep) {
+const LongMiner =
+{
+    run: creep =>
+    {
         if(creep.memory.workRoom == undefined)
             creep.memory.workRoom = 'W33S11'
         
@@ -17,6 +19,6 @@ const RoleLongMiner = {
         else
             RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.workRoom].controller)
 	}
-};
+}
 
-module.exports = RoleLongMiner;
+module.exports = LongMiner

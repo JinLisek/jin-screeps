@@ -6,8 +6,10 @@ const EnergyGatherer = require('EnergyGatherer')
 
 
 
-const RoleHauler = {
-    run: function(creep) {
+const Hauler =
+{
+    run: creep =>
+    {
         if(creep.memory.workRoom == undefined)
             creep.memory.workRoom = 'W33S11'
         
@@ -28,6 +30,6 @@ const RoleHauler = {
                 RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.workRoom].controller)    
         }
 	}
-};
+}
 
-module.exports = RoleHauler;
+module.exports = Hauler

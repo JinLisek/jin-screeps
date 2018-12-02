@@ -5,14 +5,16 @@ const EnergyGatherer = require('EnergyGatherer')
 
 
 
-const RoleFortificationMaintainer = {
-    run: function(creep) {
+const FortificationMaintainer =
+{
+    run: creep =>
+    {
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
 
         MaintainerHelper.isRepairing(creep) ?
             MaintainerHelper.repairFortifications(creep) :
             EnergyGatherer.gatherEnergy(creep)
 	}
-};
+}
 
-module.exports = RoleFortificationMaintainer;
+module.exports = FortificationMaintainer

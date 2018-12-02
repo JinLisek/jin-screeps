@@ -22,14 +22,16 @@ const ArchitectRestPos = new RoomPosition(40, 15, "W32S11")
 
 
 
-const RoleArchitect = {
-    run: function(creep) {
-	    creep.memory.building = shouldBuild(creep)
+const Architect = 
+{
+    run: creep =>
+    {
+        creep.memory.building = shouldBuild(creep)
 
-	    isBuilding(creep) ?
+        isBuilding(creep) ?
             buildConstruction(creep) :
             EnergyGatherer.gatherEnergy(creep)
-	}
-};
+    }
+}
 
-module.exports = RoleArchitect;
+module.exports = Architect

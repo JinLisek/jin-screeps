@@ -22,14 +22,16 @@ const repairBuilding = creep =>
 
 
 
-const RoleBuildingMaintainer = {
-    run: function(creep) {
+const BuildingMaintainer =
+{
+    run: creep =>
+    {
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
 
         MaintainerHelper.isRepairing(creep) ?
             repairBuilding(creep) :
             EnergyGatherer.gatherEnergy(creep)
 	}
-};
+}
 
-module.exports = RoleBuildingMaintainer;
+module.exports = BuildingMaintainer

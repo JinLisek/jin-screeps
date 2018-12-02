@@ -1,8 +1,10 @@
 const RoleFunctions = require('RoleFunctions')
 
 
-const RoleReserver = {
-    run: function(creep) {
+const Reserver =
+{
+    run: creep =>
+    {
         if(creep.memory.workRoom == undefined)
             creep.memory.workRoom = 'W33S11'
 
@@ -11,4 +13,4 @@ const RoleReserver = {
     }
 }
 
-module.exports = RoleReserver
+module.exports = Reserver

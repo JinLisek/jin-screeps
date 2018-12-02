@@ -4,12 +4,14 @@ const EnergyGatherer = require('EnergyGatherer')
 
 
 
-const RoleSlave = {
-    run: function(creep) {
+const Slave =
+{
+	run: creep =>
+	{
 	    RoleFunctions.canCreepCarryMore(creep) ?
 			EnergyGatherer.gatherEnergy(creep) :
             EnergyStorer.storeEnergyInStructures(creep);
 	}
-};
+}
 
-module.exports = RoleSlave;
+module.exports = Slave

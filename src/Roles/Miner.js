@@ -30,8 +30,10 @@ const mine = creep =>
 }
 
 
-const RoleMiner = {
-    run: function(creep) {
+const Miner =
+{
+    run: creep =>
+    {
         if(creep.memory.miningSourceId == undefined)
         {
             const sourcesWithContainersInRoom = creep.room.find(FIND_SOURCES,{ filter: source => isContainerNearby(source) })
@@ -49,6 +51,6 @@ const RoleMiner = {
             mine(creep)
         }
 	}
-};
+}
 
-module.exports = RoleMiner;
+module.exports = Miner

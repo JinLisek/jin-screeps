@@ -19,14 +19,16 @@ const shouldUpgrade = creep => (isUpgrading(creep) && creep.carry.energy > 0) ||
 
 
 
-const RolePriest = {
-    run: function(creep) {
+const Priest =
+{
+	run: creep =>
+	{
 		creep.memory.upgrading = shouldUpgrade(creep)
 
 	    isUpgrading(creep) ?
 			upgradeController(creep) :
 			EnergyGatherer.gatherEnergy(creep)
 	}
-};
+}
 
-module.exports = RolePriest;
+module.exports = Priest

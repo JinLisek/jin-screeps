@@ -1,1 +1,5 @@
 .sync
+.screeps.json
+
+dist
+node_modules
