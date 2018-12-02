@@ -7,11 +7,9 @@ const isStructDamagedFortification = (structureType, percent) => struct =>
 
 const hasLessHitsThanPercent = percent => struct => struct.hits / struct.hitsMax < percent
 
-
 const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
 {
-    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct =>
-        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 100)(struct) || isStructDamagedFortification(STRUCTURE_WALL, percent)(struct)})
+    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => MaintainerHelper.isFortificationDamaged(percent)(struct) })
     
     const newPercent = percent + iteration
     const newDepth = depth + 1
@@ -19,38 +17,34 @@ const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
     if(depth >= 20)
     {
         console.log("MAXIMUM DEPTH REACHED at: " + creep.pos)
-        return undefined
+        return creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => MaintainerHelper.isFortificationDamaged(100)(struct) })
     }
-        
+
+    creep.memory.structurePercentHealth = percent
 
     return target == undefined ?
         findFortificationWithLowestHits(creep, iteration, newPercent, newDepth ) :
         target
 }
 
-const MaintainerRestPos = new RoomPosition(29, 11, "W32S11")
+const creepRepairTarget = (creep, target) => creep.repair(target)
 
-
+const restIfTargetNotFound = creep =>
+{
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(31, 18, 'W32S11'))
+}
 
 
 const MaintainerHelper = {
     isStructMine: struct => (struct.room.controller.reservation != undefined && struct.room.controller.reservation.username == ' JinLisek') || (struct.room.controller.owner != undefined && struct.room.controller.owner.username == 'JinLisek'),
-    isStructFortification: struct => struct.structureType == STRUCTURE_RAMPART || struct.structureType == STRUCTURE_WALL,
     isRepairing: creep => creep.memory.isRepairing,
     shouldRepair: creep => (MaintainerHelper.isRepairing(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity,
+    findFortificationWithLowestHitsWrapper: creep => findFortificationWithLowestHits(creep, 0.0003, 0.0003, 0),
+    isFortificationDamaged: percent => struct =>
+        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 100)(struct) ||
+        isStructDamagedFortification(STRUCTURE_WALL, percent)(struct),
 
-    repairFortifications: creep => 
-    {
-        const target = findFortificationWithLowestHits(creep, 0.0002, 0.0001, 0)
-
-        if(target != undefined)
-        {
-            if(creep.repair(target) == ERR_NOT_IN_RANGE)
-                RoleFunctions.moveCreepToTarget(creep, target);
-        }
-        else
-            RoleFunctions.moveCreepToTarget(creep, MaintainerRestPos)  
-    }
+    moveToTargetAndRepairIt: (creep, target) => RoleFunctions.moveCreepToTargetThenDoAction(creep, target, creepRepairTarget, restIfTargetNotFound)
 };
 
 module.exports = MaintainerHelper;

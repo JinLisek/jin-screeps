@@ -4,17 +4,28 @@ const EnergyGatherer = require('EnergyGatherer')
 
 const isStructDamaged = struct => struct.hits < struct.hitsMax
 const isStructMineAndDamaged = struct => isStructDamaged(struct) && MaintainerHelper.isStructMine(struct)
+const isStructCivil = struct => struct.structureType != STRUCTURE_RAMPART && struct.structureType != STRUCTURE_WALL
+const isBuildingMineAndDamaged = struct => isStructMineAndDamaged(struct) && isStructCivil(struct)
 
-const isBuildingMineAndDamaged = struct => isStructMineAndDamaged(struct) && MaintainerHelper.isStructFortification(struct) == false
+const isStructureDamaged = creep => struct =>
+    isBuildingMineAndDamaged(struct) ||
+    MaintainerHelper.isFortificationDamaged(creep.memory.structurePercentHealth)(struct)
+
+const findBuildingOrFortificationToRepair = creep =>
+{
+    const structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})
+
+    if(structure != undefined)
+        return structure
+    
+    return MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
+}
 
 const repairBuilding = creep =>
 {
-    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: isBuildingMineAndDamaged})
-
-    if(target == undefined)
-        MaintainerHelper.repairFortifications(creep)
-    else if(creep.repair(target) == ERR_NOT_IN_RANGE)
-        RoleFunctions.moveCreepToTarget(creep, target)  
+    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findBuildingOrFortificationToRepair, isStructureDamaged(creep))
+    const damagedStructure = Game.getObjectById(creep.memory.targetId)
+    MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
 }
 
 

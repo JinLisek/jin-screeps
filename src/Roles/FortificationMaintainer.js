@@ -1,7 +1,17 @@
 const MaintainerHelper = require('MaintainerHelper')
 const EnergyGatherer = require('EnergyGatherer')
+const RoleFunctions = require('RoleFunctions')
 
+const repairFortifications = creep => 
+{
+    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+        creep,
+        MaintainerHelper.findFortificationWithLowestHitsWrapper,
+        MaintainerHelper.isFortificationDamaged(creep.memory.structurePercentHealth))
 
+    const damagedStructure = Game.getObjectById(creep.memory.targetId)
+    MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
+}
 
 
 
@@ -12,7 +22,7 @@ const FortificationMaintainer =
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
 
         MaintainerHelper.isRepairing(creep) ?
-            MaintainerHelper.repairFortifications(creep) :
+            repairFortifications(creep) :
             EnergyGatherer.gatherEnergy(creep)
 	}
 }
