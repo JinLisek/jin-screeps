@@ -11,7 +11,7 @@ const creepBuildTarget = (creep, target) =>
 
 const buildConstruction = creep =>
 {
-    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findMyClosestConstructionSite, () => true)
+    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findMyClosestConstructionSite)
     const constructionSite = Game.getObjectById(creep.memory.targetId)
     RoleFunctions.moveCreepToTargetThenDoAction(creep, constructionSite, creepBuildTarget, restIfTargetNotFound) 
 }

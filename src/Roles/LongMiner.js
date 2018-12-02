@@ -18,10 +18,7 @@ const LongMiner =
         
         if(creep.room.name == creep.memory.workRoom)
         {
-            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
-                creep,
-                findClosestActiveSource,
-                target => true)
+            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findClosestActiveSource)
     
             const harvestTarget = Game.getObjectById(creep.memory.targetId)
     

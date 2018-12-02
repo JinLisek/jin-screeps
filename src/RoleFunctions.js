@@ -17,7 +17,7 @@ const RoleFunctions =
     {
         const target = Game.getObjectById(creep.memory.targetId)
 
-        if(target == undefined || predIfTargetValid(target) == false)
+        if(target == undefined || (predIfTargetValid != undefined && predIfTargetValid(target) == false))
         {
             const newTarget = targetFinder(creep)
             if(newTarget != undefined)
