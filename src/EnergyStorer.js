@@ -1,33 +1,42 @@
 const RoleFunctions = require('RoleFunctions')
 
-const SlaveRestPos = new RoomPosition(37, 3, "W32S11")
+const isSpawn = struct => struct.structureType == STRUCTURE_SPAWN || struct.structureType == STRUCTURE_EXTENSION
 
-const canStructureBeFilledWithEnergy = struct => isStructureEnergyBased(struct) && hasStructureEnergySpace(struct)
+const hasEnergySpace = struct => struct.energy < struct.energyCapacity
 
-const isStructureEnergyBased = struct =>
-	struct.structureType == STRUCTURE_EXTENSION ||
-	struct.structureType == STRUCTURE_SPAWN ||
-    struct.structureType == STRUCTURE_TOWER
+const canSpawnBeFilledWithEnergy = struct =>
+    isSpawn(struct) && hasEnergySpace(struct)
 
-const hasStructureEnergySpace = struct => struct.energy < struct.energyCapacity
+const canStorageBeFilledWithEnergy = struct =>
+    struct.structureType == STRUCTURE_STORAGE && struct.store[RESOURCE_ENERGY] < struct.storeCapacity
 
-const transferEnergy = (creep, target) =>
+const canTowerBeFilledWithEnergy = struct =>
+    struct.structureType == STRUCTURE_TOWER && hasEnergySpace(struct)
+
+const canStructureBeFilledWithEnergy = struct =>
+    canSpawnBeFilledWithEnergy(struct) || canStorageBeFilledWithEnergy(struct) || canTowerBeFilledWithEnergy(struct)
+
+const findStructureToBeFilledWithEnergy = creep =>
 {
-    const transferResult = creep.transfer(target, RESOURCE_ENERGY)
-    transferResult == ERR_NOT_IN_RANGE ?
-        RoleFunctions.moveCreepToTarget(creep, target) :
-        RoleFunctions.ifNotZero(transferResult, console.log, "ERROR: creep.transfer: " + transferResult)
+    const spawn = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: struct => canSpawnBeFilledWithEnergy(struct) })
+
+    if(spawn != undefined)
+        return spawn
+    
+    const tower = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: struct => canTowerBeFilledWithEnergy(struct) })
+
+    if(tower != undefined)
+        return tower
+    
+    return creep.room.find(
+        FIND_STRUCTURES,
+        {filter: struct => canStorageBeFilledWithEnergy(struct)})[0]
 }
 
-const storeEnergy = creep =>
+const storeEnergyInTarget = (creep, target) =>
 {
-	const target = creep.room.find(
-		FIND_STRUCTURES, 
-		{filter: struct => struct.structureType == STRUCTURE_STORAGE && struct.store[RESOURCE_ENERGY] < struct.storeCapacity})[0];
-	
-    target == undefined ?
-        RoleFunctions.moveCreepToTarget(creep, SlaveRestPos) :
-        transferEnergy(creep, target)
+    creep.transfer(target, RESOURCE_ENERGY)
+    creep.memory.targetId = undefined
 }
 
 
@@ -38,10 +47,14 @@ const EnergyStorer =
 {
     storeEnergyInStructures: creep => 
     {
-        const target = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: canStructureBeFilledWithEnergy});
-        target == undefined ?
-            storeEnergy(creep) :
-            transferEnergy(creep, target)
+        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+            creep,
+            findStructureToBeFilledWithEnergy,
+            canStructureBeFilledWithEnergy)
+
+        const energyStoringTarget = Game.getObjectById(creep.memory.targetId)
+
+        RoleFunctions.moveCreepToTargetThenDoAction(creep, energyStoringTarget, storeEnergyInTarget)
     }
 }
 

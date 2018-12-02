@@ -13,20 +13,36 @@ const RoleFunctions =
     
     canCreepCarryMore: (creep) => creep.carry.energy < creep.carryCapacity,
 
-    getTargeIdtIfNoLongerValid: (creep, predIfTargetValid, targetFinder) =>
+    findTargeIdtIfNoLongerValid: (creep, targetFinder, predIfTargetValid) =>
     {
         const target = (Game.getObjectById(creep.memory.targetId))
 
-        return target == undefined || predIfTargetValid(target) == false ?
-            targetFinder(creep).id :
-            creep.memory.targetId
+        if(target == undefined || predIfTargetValid(target) == false)
+        {
+            const newTarget = targetFinder(creep)
+            if(newTarget != undefined)
+                return newTarget.id
+            else
+            {
+                console.log("NEW TARGET IS UNDEFINED")
+            }
+        }
+        else
+        {
+            return creep.memory.targetId
+        }
     },
 
     moveCreepToTargetThenDoAction: (creep, target, action) =>
     {
-        RoleFunctions.moveCreepToTarget(creep, target)
-        if(creep.pos.isNearTo(target))
-            action(creep, target)
+        if(target == undefined)
+            console.log("ERROR: Trying to move to undefined target")
+        else
+        {
+            RoleFunctions.moveCreepToTarget(creep, target)
+            if(creep.pos.isNearTo(target))
+                action(creep, target)
+        }
     }
 }
 

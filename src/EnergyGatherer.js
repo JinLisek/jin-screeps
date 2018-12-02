@@ -42,17 +42,24 @@ const getEnergyFromTarget = (creep, target) =>
     creep.memory.targetId = undefined
 }
 
+
+
+
+
+
+
 const EnergyGatherer =
 {
     gatherEnergy: creep =>
     {
-        creep.memory.targetId = RoleFunctions.getTargeIdtIfNoLongerValid(creep, checkIfTargetValidForEnergyGathering(creep), findTargetForEnergyGathering)
+        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+            creep,
+            findTargetForEnergyGathering,
+            checkIfTargetValidForEnergyGathering(creep))
+
         const energyGatheringTarget = Game.getObjectById(creep.memory.targetId)
 
-        if(energyGatheringTarget != undefined)
-            RoleFunctions.moveCreepToTargetThenDoAction(creep, energyGatheringTarget, getEnergyFromTarget)
-        else
-            console.log("ERROR: Energy gathering target is undefined")
+        RoleFunctions.moveCreepToTargetThenDoAction(creep, energyGatheringTarget, getEnergyFromTarget)
     }
 }
 
