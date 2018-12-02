@@ -33,7 +33,6 @@ const findBuildingOrFortificationToRepair = creep =>
 
 const repairBuilding = creep =>
 {
-    creep.memory.targetId = undefined
     creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findBuildingOrFortificationToRepair, isStructureDamaged(creep))
     const damagedStructure = Game.getObjectById(creep.memory.targetId)
     MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
