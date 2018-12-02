@@ -22,7 +22,7 @@ const findBuildingOrFortificationToRepair = creep =>
 {
     const numOfMaitainersInHomeRoom = _.sum(Game.creeps, c => c.memory.role == 'BuildingMaintainer' && c.pos.roomName == c.memory.homeRoom)
 
-    if(numOfMaitainersInHomeRoom < 4)
+    if(numOfMaitainersInHomeRoom <= 5)
     {
         const structureInHomeRoom = Game.rooms[creep.memory.homeRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingDamagedAndNotMaintained(creep)(struct)})[0]
 
