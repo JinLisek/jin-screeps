@@ -33,16 +33,16 @@ const RoleFunctions =
         }
     },
 
-    moveCreepToTargetThenDoAction: (creep, target, action) =>
+    moveCreepToTargetThenDoAction: (creep, target, action, actionIfTargetUndefined) =>
     {
-        if(target == undefined)
-            console.log("ERROR: Trying to move to undefined target")
-        else
+        if(target != undefined)
         {
             RoleFunctions.moveCreepToTarget(creep, target)
             if(creep.pos.isNearTo(target))
                 action(creep, target)
         }
+        else if(actionIfTargetUndefined != undefined)
+            actionIfTargetUndefined(creep)
     }
 }
 

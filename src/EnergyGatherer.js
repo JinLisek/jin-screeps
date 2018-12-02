@@ -42,6 +42,12 @@ const getEnergyFromTarget = (creep, target) =>
     creep.memory.targetId = undefined
 }
 
+const restIfTargetNotFound = creep =>
+{
+    console.log("ERROR: Gathering failed due to undefined target. Creep going to rest")
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(30, 12, 'W32S11'))
+}
+
 
 
 
@@ -59,7 +65,7 @@ const EnergyGatherer =
 
         const energyGatheringTarget = Game.getObjectById(creep.memory.targetId)
 
-        RoleFunctions.moveCreepToTargetThenDoAction(creep, energyGatheringTarget, getEnergyFromTarget)
+        RoleFunctions.moveCreepToTargetThenDoAction(creep, energyGatheringTarget, getEnergyFromTarget, restIfTargetNotFound)
     }
 }
 
