@@ -35,8 +35,11 @@ const restIfTargetNotFound = creep =>
 }
 
 
+const isRoomOfTargetReservedByMe = target => target.room.controller.reservation != undefined && target.room.controller.reservation.username == 'JinLisek'
+const isRoomOfTargetMine = target => target.room.controller.owner != undefined && target.room.controller.owner.username == 'JinLisek'
+
 const MaintainerHelper = {
-    isStructMine: struct => (struct.room.controller.reservation != undefined && struct.room.controller.reservation.username == ' JinLisek') || (struct.room.controller.owner != undefined && struct.room.controller.owner.username == 'JinLisek'),
+    isStructMine: struct => isRoomOfTargetReservedByMe(struct) || isRoomOfTargetMine(struct),
     isRepairing: creep => creep.memory.isRepairing,
     shouldRepair: creep => (MaintainerHelper.isRepairing(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity,
     findFortificationWithLowestHitsWrapper: creep => findFortificationWithLowestHits(creep, 0.0003, 0.0003, 0),

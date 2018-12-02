@@ -11,6 +11,9 @@ const MemoryManager = {
 
         if(Memory.sources == undefined)
             Memory.sources = new Map()
+
+        if(Memory.rooms == undefined)
+            Memory.rooms = new Map()
     }
 };
 

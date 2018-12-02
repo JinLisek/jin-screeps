@@ -13,10 +13,15 @@ const isStructureDamaged = creep => struct =>
 
 const findBuildingOrFortificationToRepair = creep =>
 {
-    const structure = Game.rooms[creep.memory.homeRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})[0]
+    const numOfMaitainersInHomeRoom = _.sum(Game.creeps, c => c.memory.role == 'BuildingMaintainer' && c.pos.roomName == c.memory.homeRoom)
 
-    if(structure != undefined)
-        return structure
+    if(numOfMaitainersInHomeRoom < 4)
+    {
+        const structureInHomeRoom = Game.rooms[creep.memory.homeRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})[0]
+
+        if(structureInHomeRoom != undefined)
+            return structureInHomeRoom
+    }
 
     const structureInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_STRUCTURES, {filter: struct => isBuildingMineAndDamaged(struct)})[0]
 
@@ -28,6 +33,7 @@ const findBuildingOrFortificationToRepair = creep =>
 
 const repairBuilding = creep =>
 {
+    creep.memory.targetId = undefined
     creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findBuildingOrFortificationToRepair, isStructureDamaged(creep))
     const damagedStructure = Game.getObjectById(creep.memory.targetId)
     MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
