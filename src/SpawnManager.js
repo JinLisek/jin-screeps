@@ -15,8 +15,8 @@ const roleSettingsMap = new Map([
     ['LongMiner', roleLongMinerSettings],
     ['Hauler', roleHaulerSettings],
     ['Architect', architectSettings],
-    ['StructureMaintainer', structureMaintainerSettings],
-    ['WallMaintainer', wallMaintainerSettings],
+    ['BuildingMaintainer', structureMaintainerSettings],
+    ['FortificationMaintainer', wallMaintainerSettings],
     ['Reserver', reserverSettings]
 ]);
 

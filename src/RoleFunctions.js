@@ -11,7 +11,23 @@ const RoleFunctions =
 
     isFullInPercent: (creep, percent) => creep.carry.energy / creep.carryCapacity >= percent,
     
-    canCreepCarryMore: (creep) => creep.carry.energy < creep.carryCapacity
+    canCreepCarryMore: (creep) => creep.carry.energy < creep.carryCapacity,
+
+    getTargeIdtIfNoLongerValid: (creep, predIfTargetValid, targetFinder) =>
+    {
+        const target = (Game.getObjectById(creep.memory.targetId))
+
+        return target == undefined || predIfTargetValid(target) == false ?
+            targetFinder(creep).id :
+            creep.memory.targetId
+    },
+
+    moveCreepToTargetThenDoAction: (creep, target, action) =>
+    {
+        RoleFunctions.moveCreepToTarget(creep, target)
+        if(creep.pos.isNearTo(target))
+            action(creep, target)
+    }
 }
 
 module.exports = RoleFunctions;
