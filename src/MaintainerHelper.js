@@ -31,7 +31,7 @@ const creepRepairTarget = (creep, target) => creep.repair(target)
 
 const restIfTargetNotFound = creep =>
 {
-    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(31, 18, 'W32S11'))
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(31, 18, creep.memory.workRoom))
 }
 
 

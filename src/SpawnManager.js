@@ -22,7 +22,15 @@ const spawnRole = (spawn, role) =>
 {
     const creepName = role + ' ' + Game.time;
 
-    if(spawn.spawnCreep(roleSettingsMap.get(role).body, creepName, {memory: {role: role, homeRoom: spawn.room.name, workRoom: 'W33S11'}}) >= 0)
+    const homeRoom = spawn.room.name
+    var workRoom = 'W33S11'
+
+    if(role == 'BuildingMaintainer' && spawn.room.find(FIND_MY_CREEPS, { filter: c => c.memory.role == 'BuildingMaintainer'}).length < 5)
+    {
+        workRoom = homeRoom
+    }
+
+    if(spawn.spawnCreep(roleSettingsMap.get(role).body, creepName, {memory: {role: role, homeRoom: homeRoom, workRoom: workRoom}}) >= 0)
         console.log('Spawning new ' + role + ': ' + creepName);
 }
 
