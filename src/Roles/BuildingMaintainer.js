@@ -18,7 +18,7 @@ const findBuildingOrFortificationToRepair = creep =>
     if(structureInWorkRoom != undefined)
         return structureInWorkRoom
 
-return MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
+    return MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
 }
 
 const repairBuilding = creep =>
