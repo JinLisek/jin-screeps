@@ -5,7 +5,7 @@ const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const buildingMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 10 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
-const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 4 }
+const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 7 }
 const phalanxSettings = { body: [ATTACK, MOVE], preferredNum: 1 }
 
 const roleSettingsMap = new Map([
