@@ -11,21 +11,24 @@ const isStructureDamaged = creep => struct =>
     isBuildingMineAndDamaged(struct) ||
     MaintainerHelper.isFortificationDamaged(creep.memory.structurePercentHealth)(struct)
 
-const findBuildingOrFortificationToRepair = creep =>
-{
-    const structureInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_STRUCTURES, {filter: struct => isStructureDamaged(creep)(struct) })[0]
+const isStructInWorkRoom = creep => struct => struct.room.name == creep.memory.workRoom
 
-    if(structureInWorkRoom != undefined)
-        return structureInWorkRoom
-
-    return MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
-}
+const findBuildingOrFortificationToRepair = creep => creep.pos.findClosestByPath(
+        FIND_STRUCTURES,
+        {filter: struct => isStructureDamaged(creep)(struct) && isStructInWorkRoom(creep)(struct) })
 
 const repairBuilding = creep =>
 {
-    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findBuildingOrFortificationToRepair, isStructureDamaged(creep))
-    const damagedStructure = Game.getObjectById(creep.memory.targetId)
-    MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
+    if(creep.room.name == creep.memory.workRoom)
+    {
+        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findBuildingOrFortificationToRepair, isStructureDamaged(creep))
+        const damagedStructure = Game.getObjectById(creep.memory.targetId)
+        MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
+    }
+    else
+    {
+        creep.moveTo(Game.rooms[creep.memory.workRoom].controller)
+    }
 }
 
 
@@ -38,10 +41,11 @@ const BuildingMaintainer =
     run: creep =>
     {
         creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
-        
+
         MaintainerHelper.isRepairing(creep) ?
                 repairBuilding(creep) :
                 EnergyGatherer.gatherEnergy(creep)
+
 	}
 }
 
