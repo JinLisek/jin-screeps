@@ -45,13 +45,42 @@ const findSourceIdWithoutMiners = creep =>
             source.pos.findInRange(FIND_STRUCTURES, 1, { filter: struct => struct.structureType == STRUCTURE_CONTAINER}).length > 0
         })[0]
 
-    return sourceWithoutMinerInWorkRoom
+    if(sourceWithoutMinerInWorkRoom != undefined)
+        return sourceWithoutMinerInWorkRoom
+    
+    const sourceWithoutContainerInHomeRoom = Game.rooms[creep.memory.homeRoom].find(
+        FIND_SOURCES, 
+        { filter: 
+            source => Memory.sources[source.id] == undefined || 
+            (Game.creeps[Memory.sources[source.id]] == undefined)
+        })[0]
+    
+    if(sourceWithoutContainerInHomeRoom != undefined)
+        return sourceWithoutContainerInHomeRoom
+    
+    const sourceWithoutContainerInWorkRoom = Game.rooms[creep.memory.workRoom].find(
+        FIND_SOURCES, 
+        { filter: 
+            source => Memory.sources[source.id] == undefined || 
+            (Game.creeps[Memory.sources[source.id]] == undefined)
+        })[0]
+    
+    return sourceWithoutContainerInWorkRoom
 }
 
 const creepMineSource = (creep, target) =>
 {
     const source = Game.getObjectById(creep.memory.miningSourceId)
     creep.harvest(source)
+}
+
+const findSourceForCreep = creep => Game.getObjectById(creep.memory.miningSourceId)
+
+const mineWithoutContainer = creep =>
+{
+    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findSourceForCreep)
+    const sourceForCreep = Game.getObjectById(creep.memory.targetId)
+    RoleFunctions.moveCreepToTargetThenDoAction(creep, sourceForCreep, creepMineSource)
 }
 
 
@@ -71,10 +100,9 @@ const Miner =
         }
         else
         {
-            const source = Game.getObjectById(creep.memory.miningSourceId)
             creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findMiningContainerForCreep)
             const miningContainer = Game.getObjectById(creep.memory.targetId)
-            RoleFunctions.moveCreepToTargetThenDoAction(creep, miningContainer, creepMineSource)
+            RoleFunctions.moveCreepToTargetThenDoAction(creep, miningContainer, creepMineSource, mineWithoutContainer)
         }
 	}
 }
