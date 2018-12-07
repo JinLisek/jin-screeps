@@ -12,30 +12,36 @@ const findEnemy = creep =>
     if(enemyCreep != undefined)
         return enemyCreep
     
-    const enemyStruct = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES)
+    const enemyStruct = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, { filter: s => s.structureType != STRUCTURE_CONTROLLER})
 
     return enemyStruct
 }
 
 const creepAttackTarget = (creep, target) => creep.attack(target)
 
+const moveCreepToExit = exit => creep => creep.moveTo(creep.pos.findClosestByPath(exit))
+
+
+
 const Phalanx = 
 {
     run: creep =>
     {
+        creep.memory.targetId = undefined
         if(creep.room.name == creep.memory.workRoom)
         {
             creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findEnemy)
             const enemy = Game.getObjectById(creep.memory.targetId)
-            RoleFunctions.moveCreepToTargetThenDoAction(creep, enemy, creepAttackTarget)
+            RoleFunctions.moveCreepToTargetThenDoAction(creep, enemy, creepAttackTarget, moveCreepToExit(FIND_EXIT_RIGHT))
         }
-        else
+        else if(creep.room.name == 'W32S12')
         {
-            if(creep.room.name == creep.memory.homeRoom)
-                creep.moveTo(creep.pos.findClosestByPath(FIND_EXIT_BOTTOM))
-            else
-                creep.moveTo(creep.pos.findClosestByPath(FIND_EXIT_LEFT))
-        }   
+            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findEnemy)
+            const enemy = Game.getObjectById(creep.memory.targetId)
+            RoleFunctions.moveCreepToTargetThenDoAction(creep, enemy, creepAttackTarget, moveCreepToExit(FIND_EXIT_LEFT))
+        }
+        else if(creep.room.name == creep.memory.homeRoom)
+            moveCreepToExit(FIND_EXIT_BOTTOM)(creep)
     }
 }
 
