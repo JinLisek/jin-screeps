@@ -42,7 +42,7 @@ const storeEnergyInTarget = (creep, target) =>
 
 const restIfTargetNotFound = creep =>
 {
-    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(40, 7, 'W32S11'))
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(40, 7, creep.memory.homeRoom))
 }
 
 

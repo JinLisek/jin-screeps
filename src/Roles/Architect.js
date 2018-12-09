@@ -10,12 +10,7 @@ const findMyClosestConstructionSite = creep =>
     
     const constructionSiteInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_MY_CONSTRUCTION_SITES)[0]
 
-    if(constructionSiteInWorkRoom != undefined)
-        return constructionSiteInWorkRoom
-
-    const structInNewRoom = Game.rooms['W33S12'].find(FIND_MY_CONSTRUCTION_SITES)[0]
-
-    return structInNewRoom
+    return constructionSiteInWorkRoom
 }
 
 const creepBuildTarget = (creep, target) =>
@@ -37,7 +32,7 @@ const shouldBuild = creep => (isBuilding(creep) && creep.carry.energy > 0) || cr
 
 const restIfTargetNotFound = creep =>
 {
-    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(41, 27, 'W32S11'))
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(41, 27, creep.memory.homeRoom))
 }
 
 

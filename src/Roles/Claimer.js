@@ -5,8 +5,8 @@ const Reserver =
 {
     run: creep =>
     {
-        if(creep.memory.workRoom != 'W33S12')
-            creep.memory.workRoom = 'W33S12'
+        // if(creep.memory.workRoom != 'W33S12')
+        //     creep.memory.workRoom = 'W33S12'
 
         if(Game.rooms[creep.memory.workRoom] != undefined && creep.room.name == creep.memory.workRoom)
         {
