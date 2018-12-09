@@ -57,7 +57,7 @@ const EnergyGatherer =
 {
     gatherEnergy: creep =>
     {
-        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+        creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(
             creep,
             findTargetForEnergyGathering,
             checkIfTargetValidForEnergyGathering(creep))

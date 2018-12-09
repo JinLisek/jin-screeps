@@ -1,71 +1,30 @@
 const RoleFunctions = require('RoleFunctions');
 
-const findMiningContainerForCreep = creep =>
+const findMiningPlace = creep =>
 {
-    const containerForMiningInHomeRoom = Game.rooms[creep.memory.homeRoom].find(
-        FIND_STRUCTURES, 
-        {
-            filter: struct => 
-                struct.structureType == STRUCTURE_CONTAINER &&
-                struct.pos.findInRange(FIND_SOURCES, 1, { filter: source => source.id == creep.memory.miningSourceId}).length > 0
-        }
-    )[0]
-    
-    if(containerForMiningInHomeRoom != undefined)
-        return containerForMiningInHomeRoom
-    
-    return Game.rooms[creep.memory.workRoom].find(
-        FIND_STRUCTURES, 
-        {
-            filter: struct => 
-                struct.structureType == STRUCTURE_CONTAINER &&
-                struct.pos.findInRange(FIND_SOURCES, 1, { filter: source => source.id == creep.memory.miningSourceId}).length > 0
-        }
-    )[0]
+    const source = Game.getObjectById(creep.memory.miningSourceId)
+    const containers = source.pos.findInRange(FIND_STRUCTURES, 1, { filter: struct => struct.structureType == STRUCTURE_CONTAINER })
+    return _.isEmpty(containers) ? source : containers[0]
 }
 
 const findSourceIdWithoutMiners = creep =>
 {
-    const sourceWithoutMinerInHomeRoom = Game.rooms[creep.memory.homeRoom].find(
-        FIND_SOURCES, 
-        { filter: 
-            source => Memory.sources[source.id] == undefined || 
-            (Game.creeps[Memory.sources[source.id]] == undefined &&
-            source.pos.findInRange(FIND_STRUCTURES, 1, { filter: struct => struct.structureType == STRUCTURE_CONTAINER}).length > 0)
-        })[0]
+    const homeRoom = Game.rooms[creep.memory.homeRoom]
+    const vassals = homeRoom.memory.vassals
+    const rooms = _.filter(Game.rooms, room => room.name == creep.memory.homeRoom || _.includes(vassals, room.name))
+    const sources = _.reduce(
+        rooms,
+        (sources, room) => sources = sources.concat(room.find(FIND_SOURCES)),
+        [])
 
-    if(sourceWithoutMinerInHomeRoom != undefined)
-        return creep.memory.miningSourceId = sourceWithoutMinerInHomeRoom
-    
-    const sourceWithoutMinerInWorkRoom = Game.rooms[creep.memory.workRoom].find(
-        FIND_SOURCES, 
-        { filter: 
-            source => Memory.sources[source.id] == undefined || 
-            Game.creeps[Memory.sources[source.id]] == undefined &&
-            source.pos.findInRange(FIND_STRUCTURES, 1, { filter: struct => struct.structureType == STRUCTURE_CONTAINER}).length > 0
-        })[0]
-
-    if(sourceWithoutMinerInWorkRoom != undefined)
-        return sourceWithoutMinerInWorkRoom
-    
-    const sourceWithoutContainerInHomeRoom = Game.rooms[creep.memory.homeRoom].find(
-        FIND_SOURCES, 
-        { filter: 
-            source => Memory.sources[source.id] == undefined || 
-            (Game.creeps[Memory.sources[source.id]] == undefined)
-        })[0]
-    
-    if(sourceWithoutContainerInHomeRoom != undefined)
-        return sourceWithoutContainerInHomeRoom
-    
-    const sourceWithoutContainerInWorkRoom = Game.rooms[creep.memory.workRoom].find(
-        FIND_SOURCES, 
-        { filter: 
-            source => Memory.sources[source.id] == undefined || 
-            (Game.creeps[Memory.sources[source.id]] == undefined)
-        })[0]
-    
-    return sourceWithoutContainerInWorkRoom
+    const sourcesWithoutMiner = _.filter(
+        sources, 
+        source => 
+            Memory.sources[source.id] == undefined ||
+            Game.creeps[Memory.sources[source.id]] == undefined
+    )
+  
+    return sourcesWithoutMiner[0]
 }
 
 const creepMineSource = (creep, target) =>
@@ -74,13 +33,9 @@ const creepMineSource = (creep, target) =>
     creep.harvest(source)
 }
 
-const findSourceForCreep = creep => Game.getObjectById(creep.memory.miningSourceId)
-
-const mineWithoutContainer = creep =>
+const restIfTargetNotFound = creep =>
 {
-    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findSourceForCreep)
-    const sourceForCreep = Game.getObjectById(creep.memory.targetId)
-    RoleFunctions.moveCreepToTargetThenDoAction(creep, sourceForCreep, creepMineSource)
+    RoleFunctions.moveCreepToTarget(creep, new RoomPosition(25, 25, creep.memory.homeRoom))
 }
 
 
@@ -100,9 +55,9 @@ const Miner =
         }
         else
         {
-            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findMiningContainerForCreep)
-            const miningContainer = Game.getObjectById(creep.memory.targetId)
-            RoleFunctions.moveCreepToTargetThenDoAction(creep, miningContainer, creepMineSource, mineWithoutContainer)
+            creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(creep, findMiningPlace)
+            const miningPlace = Game.getObjectById(creep.memory.targetId)
+            RoleFunctions.moveCreepToTargetThenDoAction(creep, miningPlace, creepMineSource, restIfTargetNotFound)
         }
 	}
 }

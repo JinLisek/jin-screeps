@@ -13,7 +13,7 @@ const RoleFunctions =
     
     canCreepCarryMore: (creep) => creep.carry.energy < creep.carryCapacity,
 
-    findTargeIdtIfNoLongerValid: (creep, targetFinder, predIfTargetValid) =>
+    findTargeIdIfNoLongerValid: (creep, targetFinder, predIfTargetValid) =>
     {
         const target = Game.getObjectById(creep.memory.targetId)
 

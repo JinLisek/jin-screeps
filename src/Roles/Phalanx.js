@@ -30,13 +30,13 @@ const Phalanx =
         creep.memory.targetId = undefined
         if(creep.room.name == creep.memory.workRoom)
         {
-            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findEnemy)
+            creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(creep, findEnemy)
             const enemy = Game.getObjectById(creep.memory.targetId)
             RoleFunctions.moveCreepToTargetThenDoAction(creep, enemy, creepAttackTarget, moveCreepToExit(FIND_EXIT_RIGHT))
         }
         else if(creep.room.name == 'W32S12')
         {
-            creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(creep, findEnemy)
+            creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(creep, findEnemy)
             const enemy = Game.getObjectById(creep.memory.targetId)
             RoleFunctions.moveCreepToTargetThenDoAction(creep, enemy, creepAttackTarget, moveCreepToExit(FIND_EXIT_LEFT))
         }

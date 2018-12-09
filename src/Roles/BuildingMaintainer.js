@@ -31,7 +31,7 @@ const repairBuilding = creep =>
 {
     if(creep.room.name == creep.memory.workRoom)
     {
-        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+        creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(
             creep,
             findBuildingOrFortificationToRepair,
             isStructureDamaged(creep) || MaintainerHelper.isFortificationDamaged(creep.memory.structurePercentHealth))

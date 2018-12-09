@@ -37,6 +37,14 @@ const numOfRequiredMiners = room =>
     return numOfNeededMiners
 }
 
+const numOfRequiredWorkersForRole = (room, role) =>
+{
+    if(role == "Miner")
+        return numOfRequiredMiners(room)
+
+    return 0
+}
+
 const calculateMinerBody = room =>
 {
     const maxWorkParts = 5
@@ -112,18 +120,39 @@ const SpawnManager = {
             const spawn = Game.spawns[spawnName]
             const roles = roleSettingsMap.keys()
             
-            for(const role of roles)
+            if(spawn.room.name == "W33S12")
             {
-                const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
-                if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                const newRoomRoles = ["Slave", "Miner", "Priest"]
+                for(const role of newRoomRoles)
                 {
-                    spawnRole(spawn, role)
-                    break
+                    const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
+                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                    {
+                        spawnRole(spawn, role)
+                        break
+                    }
+                    else if(role == 'Miner' && numOfCreepsWithRole < numOfRequiredWorkersForRole(spawn.room, role))
+                    {
+                        spawnRole(spawn, role)
+                        break
+                    }
                 }
-                else if(role == 'Miner' && numOfCreepsWithRole < numOfRequiredMiners(spawn.room))
+            }
+            else
+            {
+                for(const role of roles)
                 {
-                    spawnRole(spawn, role)
-                    break
+                    const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
+                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                    {
+                        spawnRole(spawn, role)
+                        break
+                    }
+                    else if(role == 'Miner' && numOfCreepsWithRole < numOfRequiredWorkersForRole(spawn.room, role))
+                    {
+                        spawnRole(spawn, role)
+                        break
+                    }
                 }
             }
         }

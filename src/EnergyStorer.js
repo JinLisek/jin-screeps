@@ -53,7 +53,7 @@ const EnergyStorer =
 {
     storeEnergyInStructures: creep => 
     {
-        creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+        creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(
             creep,
             findStructureToBeFilledWithEnergy,
             canStructureBeFilledWithEnergy)

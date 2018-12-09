@@ -4,7 +4,7 @@ const RoleFunctions = require('RoleFunctions')
 
 const repairFortifications = creep => 
 {
-    creep.memory.targetId = RoleFunctions.findTargeIdtIfNoLongerValid(
+    creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(
         creep,
         MaintainerHelper.findFortificationWithLowestHitsWrapper,
         MaintainerHelper.isFortificationDamaged(creep.memory.structurePercentHealth))
