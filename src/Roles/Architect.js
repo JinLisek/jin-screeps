@@ -10,7 +10,12 @@ const findMyClosestConstructionSite = creep =>
     
     const constructionSiteInWorkRoom = Game.rooms[creep.memory.workRoom].find(FIND_MY_CONSTRUCTION_SITES)[0]
 
-    return constructionSiteInWorkRoom
+    if(constructionSiteInWorkRoom != undefined)
+        return constructionSiteInWorkRoom
+
+    const structInNewRoom = Game.rooms['W33S12'].find(FIND_MY_CONSTRUCTION_SITES)[0]
+
+    return structInNewRoom
 }
 
 const creepBuildTarget = (creep, target) =>

@@ -7,6 +7,7 @@ const Miner = require('Roles_Miner')
 const Reserver = require('Roles_Reserver')
 const Hauler = require('Roles_Hauler')
 const Phalanx = require('Roles_Phalanx')
+const Claimer = require('Roles_Claimer')
 
  const RoleManager = {
 
@@ -34,6 +35,8 @@ const Phalanx = require('Roles_Phalanx')
                     Hauler.run(creep)
                 else if(creep.memory.role == 'Phalanx')
                     Phalanx.run(creep)
+                else if(creep.memory.role == 'Claimer')
+                    Claimer.run(creep)
                 else
                     console.log("Don't know action for role: " + creep.memory.role)
             }

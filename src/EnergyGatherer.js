@@ -12,11 +12,11 @@ const isSafeInCreepRoom = creep => creep.room.find(FIND_HOSTILE_CREEPS) == 0
 const findTargetForEnergyGathering = creep =>
 {
     const droppedEnergy = isSafeInCreepRoom(creep) ?
-        creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, { filter : resource => isEnoughEnergyInResourceForCreep(creep)(resource) }) :
+        creep.room.find(FIND_DROPPED_RESOURCES, { filter : resource => isEnoughEnergyInResourceForCreep(creep)(resource) })[0] :
         undefined
     
     return droppedEnergy == undefined ?
-        creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInStructureForCreep(creep)(struct) }) :
+        creep.room.find(FIND_STRUCTURES, { filter: struct => isEnoughEnergyInStructureForCreep(creep)(struct) })[0] :
         droppedEnergy
 }
 

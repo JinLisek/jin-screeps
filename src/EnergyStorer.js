@@ -18,17 +18,18 @@ const canStructureBeFilledWithEnergy = struct =>
 
 const findStructureToBeFilledWithEnergy = creep =>
 {
-    const spawn = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: struct => canSpawnBeFilledWithEnergy(struct) })
+    const homeRoom = Game.rooms[creep.memory.homeRoom]
+    const spawn = homeRoom.find(FIND_STRUCTURES, { filter: struct => canSpawnBeFilledWithEnergy(struct) })[0]
 
     if(spawn != undefined)
         return spawn
     
-    const tower = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: struct => canTowerBeFilledWithEnergy(struct) })
+    const tower = homeRoom.find(FIND_STRUCTURES, { filter: struct => canTowerBeFilledWithEnergy(struct) })[0]
 
     if(tower != undefined)
         return tower
     
-    return creep.room.find(
+    return homeRoom.find(
         FIND_STRUCTURES,
         {filter: struct => canStorageBeFilledWithEnergy(struct)})[0]
 }
