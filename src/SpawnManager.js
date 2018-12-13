@@ -16,8 +16,7 @@ const roleSettingsMap = new Map([
     ['Architect', architectSettings],
     ['BuildingMaintainer', buildingMaintainerSettings],
     ['FortificationMaintainer', fortificationMaintainerSettings],
-    ['Reserver', reserverSettings],
-    ['Phalanx', phalanxSettings]
+    ['Reserver', reserverSettings]
 ]);
 
 const calculateNumOfMinersForVassals = room =>
@@ -122,11 +121,16 @@ const SpawnManager = {
             
             if(spawn.room.name == "W33S12")
             {
-                const newRoomRoles = ["Slave", "Miner", "Priest"]
+                const newRoomRoles = ["Slave", "Miner", "Priest", "Architect", "BuildingMaintainer", "FortificationMaintainer"]
                 for(const role of newRoomRoles)
                 {
                     const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
-                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                    if(role == "BuildingMaintainer" && numOfCreepsWithRole < 3) //TODO - calculate num of building maintainers
+                    {
+                        spawnRole(spawn, role)
+                        break
+                    }
+                    if(role != 'Miner' && role != "BuildingMaintainer" && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
                     {
                         spawnRole(spawn, role)
                         break

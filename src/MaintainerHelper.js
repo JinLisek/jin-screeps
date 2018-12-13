@@ -5,7 +5,7 @@ const isStructDamagedFortification = (structureType, percent) => struct =>
     struct.structureType == structureType && 
     hasLessHitsThanPercent(percent)(struct)
 
-const hasLessHitsThanPercent = percent => struct => struct.hits / struct.hitsMax < percent
+const hasLessHitsThanPercent = percent => struct => struct.hits < struct.hitsMax * percent
 
 const findFortificationWithLowestHits = (creep, iteration, percent, depth) =>
 {

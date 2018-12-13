@@ -1,6 +1,8 @@
 const RoleFunctions = require('RoleFunctions')
 const EnergyGatherer = require('EnergyGatherer')
 
+const isConstructionSite = struct => struct.progress != undefined && struct.progress < struct.progressTotal
+
 const findMyClosestConstructionSite = creep =>
 {
     const constructionSite = Game.rooms[creep.memory.homeRoom].find(FIND_MY_CONSTRUCTION_SITES)[0]
@@ -13,15 +15,11 @@ const findMyClosestConstructionSite = creep =>
     return constructionSiteInWorkRoom
 }
 
-const creepBuildTarget = (creep, target) =>
-{
-    creep.build(target)
-    creep.memory.targetId = undefined
-}
+const creepBuildTarget = (creep, target) => creep.build(target)
 
 const buildConstruction = creep =>
 {
-    creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(creep, findMyClosestConstructionSite)
+    creep.memory.targetId = RoleFunctions.findTargeIdIfNoLongerValid(creep, findMyClosestConstructionSite, isConstructionSite)
     const constructionSite = Game.getObjectById(creep.memory.targetId)
     RoleFunctions.moveCreepToTargetThenDoAction(creep, constructionSite, creepBuildTarget, restIfTargetNotFound)
 }
