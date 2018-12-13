@@ -44,7 +44,7 @@ const MaintainerHelper = {
     shouldRepair: creep => (MaintainerHelper.isRepairing(creep) && creep.carry.energy > 0) || creep.carry.energy == creep.carryCapacity,
     findFortificationWithLowestHitsWrapper: creep => findFortificationWithLowestHits(creep, 0.0006, 0.0004, 0),
     isFortificationDamaged: percent => struct =>
-        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 90)(struct) ||
+        isStructDamagedFortification(STRUCTURE_RAMPART, percent * 50)(struct) ||
         isStructDamagedFortification(STRUCTURE_WALL, percent)(struct),
 
     moveToTargetAndRepairIt: (creep, target) => RoleFunctions.moveCreepToTargetThenDoAction(creep, target, creepRepairTarget, restIfTargetNotFound)
