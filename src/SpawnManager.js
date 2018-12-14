@@ -4,7 +4,7 @@ const priestSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOV
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const buildingMaintainerSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 6 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
-const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
+const reserverSettings = { body: [CLAIM, CLAIM, MOVE], preferredNum: 1 }
 const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 5 }
 const phalanxSettings = { body: [ATTACK, MOVE], preferredNum: 1 }
 
