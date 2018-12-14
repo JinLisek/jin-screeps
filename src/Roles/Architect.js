@@ -40,7 +40,13 @@ const Architect =
 {
     run: creep =>
     {
-        creep.memory.building = shouldBuild(creep)
+        const shouldCreepBuild = shouldBuild(creep)
+
+        if(shouldCreepBuild != creep.memory.building)
+        {
+            creep.memory.building = shouldBuild(creep)
+            creep.memory.targetId = undefined
+        }
 
         isBuilding(creep) ?
             buildConstruction(creep) :

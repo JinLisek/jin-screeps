@@ -4,8 +4,8 @@ const MemoryManager = {
     {
         for(const creepName in Memory.creeps) {
             if(Game.creeps[creepName] == undefined) {
+                console.log('Clearing non-existing creep memory: ' + creepName + ", from: " + Memory.creeps[creepName].homeRoom);
                 delete Memory.creeps[creepName];
-                console.log('Clearing non-existing creep memory:', creepName);
             }
         }
 

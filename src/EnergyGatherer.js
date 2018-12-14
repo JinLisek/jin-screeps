@@ -3,8 +3,7 @@ const RoleFunctions = require('RoleFunctions')
 const isEnoughEnergyInResourceForCreep = creep => resource => resource.amount > creep.carryCapacity && resource.resourceType == RESOURCE_ENERGY
 
 const isEnoughEnergyInStructureForCreep = creep => struct =>
-    (struct.structureType == STRUCTURE_STORAGE ||
-    struct.structureType == STRUCTURE_CONTAINER) &&
+    (struct.structureType == STRUCTURE_STORAGE || struct.structureType == STRUCTURE_CONTAINER) &&
     struct.store[RESOURCE_ENERGY] > creep.carryCapacity
 
 const isSafeInCreepRoom = creep => creep.room.find(FIND_HOSTILE_CREEPS) == 0

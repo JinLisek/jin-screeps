@@ -17,11 +17,15 @@ const Hauler =
                 RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.homeRoom].controller)
 
         }
-        else
+        else if(Game.rooms[creep.memory.workRoom] != undefined)
         {
             creep.carry.energy > 0 ?
                 EnergyStorer.storeEnergyInStructures(creep) :
                 RoleFunctions.moveCreepToTarget(creep, Game.rooms[creep.memory.workRoom].controller)    
+        }
+        else
+        {
+            RoleFunctions.moveCreepToTarget(creep, new RoomPosition(25, 25, creep.room.name))
         }
 	}
 }

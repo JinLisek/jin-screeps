@@ -2,7 +2,14 @@ const RoleFunctions =
 {
     ifNotZero: (val, func, param) => val == 0 ? null : func(param),
 
-    moveCreepToTarget: (creep, target) => creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}}),
+    moveCreepToTarget: (creep, target) =>
+        creep.moveTo(
+            target, 
+            {
+                reusePath: 15,
+                visualizePathStyle: {stroke: '#ffaa00'}
+            }
+        ),
 
     findClosestActiveSource: (creep) => creep.pos.findClosestByPath(
         FIND_SOURCES_ACTIVE,

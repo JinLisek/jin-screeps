@@ -5,7 +5,7 @@ const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const buildingMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 10 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
-const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 7 }
+const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 5 }
 const phalanxSettings = { body: [ATTACK, MOVE], preferredNum: 1 }
 
 const roleSettingsMap = new Map([
@@ -147,7 +147,7 @@ const SpawnManager = {
                 for(const role of roles)
                 {
                     const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
-                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
+                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum && role != 'Architect') //TODO - add check if construction site in room -> build
                     {
                         spawnRole(spawn, role)
                         break

@@ -19,7 +19,13 @@ const FortificationMaintainer =
 {
     run: creep =>
     {
-        creep.memory.isRepairing = MaintainerHelper.shouldRepair(creep)
+        const shouldCreepRepair = MaintainerHelper.shouldRepair(creep)
+
+        if(shouldCreepRepair != creep.memory.isRepairing)
+        {
+            creep.memory.isRepairing = shouldCreepRepair
+            creep.memory.targetId = undefined
+        }
 
         MaintainerHelper.isRepairing(creep) ?
             repairFortifications(creep) :

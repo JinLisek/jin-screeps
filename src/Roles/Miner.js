@@ -52,6 +52,10 @@ const Miner =
                 Memory.sources[sourceId] = creep.name
                 creep.memory.miningSourceId = sourceId
             }
+            else
+            {
+                restIfTargetNotFound(creep)
+            }
         }
         else
         {
