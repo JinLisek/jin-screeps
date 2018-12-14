@@ -1,6 +1,6 @@
 const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE] }
 const slaveSettings = { body: [CARRY, CARRY, MOVE], preferredNum: 4 }
-const priestSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 4 }
+const priestSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], preferredNum: 2 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
 const buildingMaintainerSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 6 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
