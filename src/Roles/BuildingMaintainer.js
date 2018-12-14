@@ -38,9 +38,13 @@ const repairBuilding = creep =>
         const damagedStructure = Game.getObjectById(creep.memory.targetId)
         MaintainerHelper.moveToTargetAndRepairIt(creep, damagedStructure)
     }
-    else
+    else if(Game.rooms[creep.memory.workRoom] != undefined)
     {
         creep.moveTo(Game.rooms[creep.memory.workRoom].controller)
+    }
+    else
+    {
+        RoleFunctions.moveCreepToTarget(creep, new RoomPosition(31, 18, creep.memory.homeRoom))
     }
 }
 

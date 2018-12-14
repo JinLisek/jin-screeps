@@ -2,7 +2,7 @@ const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE] }
 const slaveSettings = { body: [CARRY, CARRY, MOVE], preferredNum: 4 }
 const priestSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 4 }
 const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
-const buildingMaintainerSettings = { body: [WORK, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 10 }
+const buildingMaintainerSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 6 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 2 }
 const reserverSettings = { body: [CLAIM, MOVE], preferredNum: 2 }
 const haulerSettings = { body: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], preferredNum: 5 }
@@ -84,7 +84,7 @@ const spawnRole = (spawn, role) =>
     const homeRoom = spawn.room.name
     var workRoom = homeRoom == 'W32S11' ? 'W33S11' : homeRoom
 
-    if(role == 'BuildingMaintainer' && spawn.room.find(FIND_MY_CREEPS, { filter: c => c.memory.role == 'BuildingMaintainer'}).length < 5)
+    if(role == 'BuildingMaintainer' && spawn.room.find(FIND_MY_CREEPS, { filter: c => c.memory.role == 'BuildingMaintainer'}).length < roleSettingsMap.get(role).preferredNum / 2)
     {
         workRoom = homeRoom
     }
