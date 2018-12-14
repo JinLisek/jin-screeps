@@ -22,6 +22,11 @@ const findBuildingOrFortificationToRepair = creep =>
     if(buildingToBeRepaired != undefined)
         return buildingToBeRepaired
 
+    const fortifications = creep.room.find(FIND_STRUCTURES, { filter: struct => struct.structureType == STRUCTURE_RAMPART || struct.structureType == STRUCTURE_WALL})
+    
+    if(fortifications.length == 0)
+        return undefined
+
     const fortificationsToBeRepaired = MaintainerHelper.findFortificationWithLowestHitsWrapper(creep)
     
     return fortificationsToBeRepaired
