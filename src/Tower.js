@@ -10,6 +10,13 @@ const Tower =
             const target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
             tower.attack(target)
         }
+
+        const towers2 = Game.spawns['Rome'].room.find(FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_TOWER })
+        for(tower of towers2)
+        {
+            const target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
+            tower.attack(target)
+        }
     }
 }
 
