@@ -1,7 +1,7 @@
 const minerSettings = { body: [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE] }
-const slaveSettings = { body: [CARRY, CARRY, MOVE], preferredNum: 4 }
-const priestSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], preferredNum: 2 }
-const architectSettings = { body: [WORK, CARRY, MOVE, MOVE], preferredNum: 4 }
+const slaveSettings = { body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], preferredNum: 2 }
+const priestSettings = { body: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], preferredNum: 2 }
+const architectSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], preferredNum: 2 }
 const buildingMaintainerSettings = { body: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], preferredNum: 6 }
 const fortificationMaintainerSettings = { body: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], preferredNum: 2 }
 const reserverSettings = { body: [CLAIM, CLAIM, MOVE], preferredNum: 1 }
@@ -13,7 +13,7 @@ const roleSettingsMap = new Map([
     ['Miner', minerSettings],
     ['Priest', priestSettings],
     ['Hauler', haulerSettings],
-    ['Architect', architectSettings],
+    ['Architect', architectSettings],  //TODO - add check if construction site in room -> build
     ['BuildingMaintainer', buildingMaintainerSettings],
     ['FortificationMaintainer', fortificationMaintainerSettings],
     ['Reserver', reserverSettings]
@@ -147,7 +147,7 @@ const SpawnManager = {
                 for(const role of roles)
                 {
                     const numOfCreepsWithRole = _.sum(Game.creeps, creep => creep.memory.role == role && creep.memory.homeRoom == spawn.room.name);
-                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum && role != 'Architect') //TODO - add check if construction site in room -> build
+                    if(role != 'Miner' && numOfCreepsWithRole < roleSettingsMap.get(role).preferredNum)
                     {
                         spawnRole(spawn, role)
                         break
