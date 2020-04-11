@@ -1,5 +1,5 @@
 .sync
-.screeps.json
+.screeps_credentials.json
 
 dist
 node_modules
