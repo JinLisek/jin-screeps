@@ -2,7 +2,7 @@ const hauler = require("roles_hauler");
 const upgrader = require("roles_upgrader");
 const builder = require("roles_builder");
 const miner = require("roles_miner");
-let spawner = require("buildings_spawner");
+const spawner = require("buildings_spawner");
 
 module.exports.loop = function () {
   spawner.run();
