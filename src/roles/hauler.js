@@ -24,6 +24,8 @@ var hauler = {
             visualizePathStyle: { stroke: "#ffffff" },
           });
         }
+      } else {
+        creep.moveTo(24, 32);
       }
     } else {
       const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
