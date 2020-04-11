@@ -1,11 +1,11 @@
 const unit_configs = [
   {
-    parts: [WORK, WORK, WORK, MOVE, MOVE],
+    parts: [WORK, WORK, WORK, WORK, MOVE, MOVE],
     role: "miner",
     max_num: 2,
   },
   {
-    parts: [WORK, CARRY, CARRY, MOVE, MOVE],
+    parts: [CARRY, CARRY, MOVE, MOVE],
     role: "hauler",
     max_num: 2,
   },
@@ -13,7 +13,7 @@ const unit_configs = [
   {
     parts: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
     role: "upgrader",
-    max_num: 2,
+    max_num: 4,
   },
 
   {
