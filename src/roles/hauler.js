@@ -1,10 +1,11 @@
-var harvester = {
-  /** @param {Creep} creep **/
+var hauler = {
   run: function (creep) {
     if (creep.store.getFreeCapacity() > 0) {
-      var sources = creep.room.find(FIND_SOURCES);
-      if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[1], { visualizePathStyle: { stroke: "#ffaa00" } });
+      const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
+      if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(droppedEnergy[0], {
+          visualizePathStyle: { stroke: "#ffaa00" },
+        });
       }
     } else {
       var targets = creep.room.find(FIND_STRUCTURES, {
@@ -28,4 +29,4 @@ var harvester = {
   },
 };
 
-module.exports = harvester;
+module.exports = hauler;

@@ -1,6 +1,7 @@
-var harvester = require("roles_harvester");
-var upgrader = require("roles_upgrader");
-var builder = require("roles_builder");
+const hauler = require("roles_hauler");
+const upgrader = require("roles_upgrader");
+const builder = require("roles_builder");
+const miner = require("roles_miner");
 let spawner = require("buildings_spawner");
 
 module.exports.loop = function () {
@@ -8,14 +9,18 @@ module.exports.loop = function () {
 
   for (var name in Game.creeps) {
     var creep = Game.creeps[name];
-    if (creep.memory.role == "harvester") {
-      harvester.run(creep);
+
+    if (creep.memory.role == "hauler") {
+      hauler.run(creep);
     }
     if (creep.memory.role == "upgrader") {
       upgrader.run(creep);
     }
     if (creep.memory.role == "builder") {
       builder.run(creep);
+    }
+    if (creep.memory.role == "miner") {
+      miner.run(creep);
     }
   }
 };

@@ -1,18 +1,23 @@
 const unit_configs = [
   {
-    parts: [WORK, WORK, CARRY, MOVE],
-    role: "harvester",
+    parts: [WORK, WORK, WORK, MOVE, MOVE],
+    role: "miner",
+    max_num: 2,
+  },
+  {
+    parts: [WORK, CARRY, CARRY, MOVE, MOVE],
+    role: "hauler",
     max_num: 2,
   },
 
   {
-    parts: [WORK, CARRY, CARRY, MOVE, MOVE],
+    parts: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
     role: "upgrader",
     max_num: 2,
   },
 
   {
-    parts: [WORK, CARRY, CARRY, MOVE, MOVE],
+    parts: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
     role: "builder",
     max_num: 4,
   },
@@ -26,13 +31,19 @@ const costOfBody = (body) => {
 
 const spawner = {
   run: function () {
+    const spawn = Game.spawns["Spawn1"];
+
     for (var name in Memory.creeps) {
       if (!Game.creeps[name]) {
+        if (Memory.creeps[name]["role"] == "miner") {
+          const sourceId = Memory.creeps[name]["source"];
+          Memory["rooms"][spawn.room.name]["sources"][sourceId]["miner"] = null;
+        }
+
         delete Memory.creeps[name];
         console.log("Clearing non-existing creep memory:", name);
       }
     }
-    const spawn = Game.spawns["Spawn1"];
 
     for (let i = 0; i < unit_configs.length; ++i) {
       const unit = unit_configs[i];
@@ -42,9 +53,6 @@ const spawner = {
       ).length;
 
       if (num_of_units < unit["max_num"]) {
-        console.log(
-          "Role = " + unit["role"] + ", cost = " + costOfBody(unit["parts"])
-        );
         if (costOfBody(unit["parts"]) <= spawn.room.energyAvailable) {
           var newName = unit["role"] + Game.time;
           console.log("Spawning new " + newName);
