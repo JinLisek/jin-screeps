@@ -24,6 +24,11 @@ const unit_configs = [
     role: "builder",
     max_num: 4,
   },
+  {
+    parts: [CLAIM, MOVE],
+    role: "claimer",
+    max_num: 2,
+  },
 ];
 
 const harvester_config = {
