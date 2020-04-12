@@ -8,12 +8,11 @@ const repairer = {
     }
 
     if (creep.memory.repairing) {
-      const structs = creep.room.find(FIND_STRUCTURES);
-      const structuresInNeedOfRepair = _.filter(
-        structs,
-        (struct) =>
-          struct.hits < struct.hitsMax && struct.structureType != STRUCTURE_WALL
-      );
+      const structuresInNeedOfRepair = creep.room.find(FIND_STRUCTURES, {
+        filter: (struct) =>
+          struct.hits < struct.hitsMax &&
+          struct.structureType != STRUCTURE_WALL,
+      });
 
       if (structuresInNeedOfRepair.length > 0) {
         if (creep.repair(structuresInNeedOfRepair[0]) == ERR_NOT_IN_RANGE) {
