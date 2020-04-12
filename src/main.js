@@ -9,27 +9,27 @@ const remoteBuilder = require("roles_remoteBuilder");
 const spawner = require("buildings_spawner");
 
 module.exports.loop = function () {
-  spawner.run();
+  spawner();
 
   for (let name in Game.creeps) {
     const creep = Game.creeps[name];
 
     if (creep.memory.role == "hauler") {
-      hauler.run(creep);
+      hauler(creep);
     } else if (creep.memory.role == "upgrader") {
-      upgrader.run(creep);
+      upgrader(creep);
     } else if (creep.memory.role == "builder") {
-      builder.run(creep);
+      builder(creep);
     } else if (creep.memory.role == "miner") {
-      miner.run(creep);
+      miner(creep);
     } else if (creep.memory.role == "repairer") {
-      repairer.run(creep);
+      repairer(creep);
     } else if (creep.memory.role == "harvester") {
-      harvester.run(creep);
+      harvester(creep);
     } else if (creep.memory.role == "claimer") {
-      claimer.run(creep);
+      claimer(creep);
     } else if (creep.memory.role == "remoteBuilder") {
-      remoteBuilder.run(creep);
+      remoteBuilder(creep);
     }
   }
 };
