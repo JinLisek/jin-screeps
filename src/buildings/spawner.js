@@ -88,7 +88,7 @@ const spawner = {
               bodyParts.pop();
             }
             if (costOfBody(bodyParts) <= spawn.room.energyAvailable) {
-              var newName = unit["role"] + Game.time;
+              const newName = unit["role"] + Game.time;
               console.log(spawn.room.name + ": spawning new " + newName);
               spawn.spawnCreep(bodyParts, newName, {
                 memory: { role: unit["role"], homeRoom: spawn.room.name },
@@ -115,7 +115,7 @@ const spawner = {
                     creep.memory.homeRoom == spawn.room.name &&
                     creep.memory.destination == "E15N42"
                 ).length;
-                var newName = unit["role"] + Game.time;
+                const newName = unit["role"] + Game.time;
                 const destinationRoom =
                   num_of_claimersForE15N42 < 1 ? "E15N42" : "E16N41";
                 console.log(
@@ -133,7 +133,7 @@ const spawner = {
                   },
                 });
               } else {
-                var newName = unit["role"] + Game.time;
+                const newName = unit["role"] + Game.time;
                 console.log(spawn.room.name + ": spawning new " + newName);
                 spawn.spawnCreep(bodyParts, newName, {
                   memory: { role: unit["role"], homeRoom: spawn.room.name },
@@ -146,7 +146,7 @@ const spawner = {
       }
 
       if (spawn.spawning) {
-        var spawningCreep = Game.creeps[spawn.spawning.name];
+        const spawningCreep = Game.creeps[spawn.spawning.name];
         spawn.room.visual.text(
           "🛠️" + spawningCreep.memory.role,
           spawn.pos.x + 1,

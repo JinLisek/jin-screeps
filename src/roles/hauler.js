@@ -1,4 +1,4 @@
-var hauler = {
+const hauler = {
   run: function (creep) {
     if (creep.memory.hauling && creep.store[RESOURCE_ENERGY] == 0) {
       creep.memory.hauling = false;
@@ -8,7 +8,7 @@ var hauler = {
     }
 
     if (creep.memory.hauling) {
-      var targets = creep.room.find(FIND_STRUCTURES, {
+      const targets = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
           return (
             (structure.structureType == STRUCTURE_EXTENSION ||

@@ -10,7 +10,7 @@ const harvester = {
     console.log(creep.memory.hauling);
 
     if (creep.memory.hauling) {
-      var targets = creep.room.find(FIND_STRUCTURES, {
+      const targets = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
           return (
             (structure.structureType == STRUCTURE_EXTENSION ||
@@ -30,7 +30,7 @@ const harvester = {
         creep.moveTo(24, 32);
       }
     } else {
-      var sources = creep.room.find(FIND_SOURCES);
+      const sources = creep.room.find(FIND_SOURCES);
       if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
         creep.moveTo(sources[0], { visualizePathStyle: { stroke: "#ffaa00" } });
       }

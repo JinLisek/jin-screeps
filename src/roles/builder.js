@@ -1,4 +1,4 @@
-var builder = {
+const builder = {
   run: function (creep) {
     if (creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
       creep.memory.building = false;
@@ -8,7 +8,7 @@ var builder = {
     }
 
     if (creep.memory.building) {
-      var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+      const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
       if (targets.length > 0) {
         if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], {
