@@ -1,6 +1,6 @@
-var miner = {
+const miner = {
   run: (creep) => {
-    var sources = creep.room.find(FIND_SOURCES);
+    const sources = creep.room.find(FIND_SOURCES);
     if (creep.memory["source"] == undefined) {
       for (let i = 0; i < sources.length; ++i) {
         const source = sources[i];
@@ -15,6 +15,13 @@ var miner = {
     }
 
     const source = Game.getObjectById(creep.memory["source"]);
+
+    const containersNearSource = source.pos.findInRange(FIND_STRUCTURES, 1, {
+      filter: (struct) => struct.structureType == STRUCTURE_CONTAINER,
+    });
+    if (containersNearSource.length > 0) {
+      creep.moveTo(containersNearSource[0]);
+    }
     if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
       creep.moveTo(source, { visualizePathStyle: { stroke: "#ffaa00" } });
     }
