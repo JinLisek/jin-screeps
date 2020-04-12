@@ -50,27 +50,21 @@ const spawner = () => {
     Game.spawns["Caesaria"],
   ];
 
-  spawns.forEach((spawn) => {
-    for (const name in Memory.creeps) {
-      if (!Game.creeps[name]) {
-        if (Memory.creeps[name]["role"] == "miner") {
-          const sourceId = Memory.creeps[name]["source"];
-          if (
-            sourceId != undefined &&
-            sourceId != null &&
-            Memory["rooms"][spawn.room.name]["sources"][sourceId]
-          ) {
-            Memory["rooms"][spawn.room.name]["sources"][sourceId][
-              "miner"
-            ] = null;
-          }
-        }
-
-        delete Memory.creeps[name];
-        console.log("Clearing non-existing creep memory:", name);
+  for (const name in Memory.creeps) {
+    if (!Game.creeps[name]) {
+      if (Memory.creeps[name]["role"] == "miner") {
+        const sourceId = Memory.creeps[name]["source"];
+        Memory["rooms"][Memory.creeps[name]["homeRoom"]]["sources"][sourceId][
+          "miner"
+        ] = null;
       }
-    }
 
+      delete Memory.creeps[name];
+      console.log("Clearing non-existing creep memory:", name);
+    }
+  }
+
+  spawns.forEach((spawn) => {
     for (let i = 0; i < unit_configs.length; ++i) {
       const unit = unit_configs[i];
       let num_of_units = _.filter(
