@@ -6,7 +6,7 @@ const miner = {
         const source = sources[i];
         const source_mem =
           Memory.rooms[creep.room.name]["sources"][source["id"]];
-        if (source_mem["miner"] == null) {
+        if (source_mem["miner"] == null || source_mem["miner"] == undefined) {
           source_mem["miner"] = creep.name;
           creep.memory["source"] = source.id;
           break;
