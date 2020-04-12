@@ -11,7 +11,7 @@ const spawner = require("buildings_spawner");
 module.exports.loop = function () {
   spawner();
 
-  for (let name in Game.creeps) {
+  for (const name in Game.creeps) {
     const creep = Game.creeps[name];
 
     if (creep.memory.role == "hauler") {

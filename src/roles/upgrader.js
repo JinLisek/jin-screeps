@@ -1,3 +1,5 @@
+const finders = require("roles_helpers_finders");
+
 const upgrader = (creep) => {
   if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
     creep.memory.upgrading = false;
@@ -13,12 +15,7 @@ const upgrader = (creep) => {
       });
     }
   } else {
-    const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
-    if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(droppedEnergy[0], {
-        visualizePathStyle: { stroke: "#ffaa00" },
-      });
-    }
+    finders.collectEnergyByCreep(creep);
   }
 };
 

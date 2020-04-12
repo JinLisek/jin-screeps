@@ -1,3 +1,5 @@
+const finders = require("roles_helpers_finders");
+
 const repairer = (creep) => {
   if (creep.memory.repairing && creep.store[RESOURCE_ENERGY] == 0) {
     creep.memory.repairing = false;
@@ -22,12 +24,7 @@ const repairer = (creep) => {
       creep.moveTo(16, 17);
     }
   } else {
-    const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
-    if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(droppedEnergy[0], {
-        visualizePathStyle: { stroke: "#ffaa00" },
-      });
-    }
+    finders.collectEnergyByCreep(creep);
   }
 };
 
