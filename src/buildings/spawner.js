@@ -29,6 +29,11 @@ const unit_configs = [
     role: "claimer",
     max_num: 2,
   },
+  {
+    parts: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+    role: "remoteBuilder",
+    max_num: 4,
+  },
 ];
 
 const harvester_config = {
@@ -75,11 +80,27 @@ const spawner = {
 
         if (num_of_units < unit["max_num"]) {
           if (costOfBody(unit["parts"]) <= spawn.room.energyAvailable) {
-            var newName = unit["role"] + Game.time;
-            console.log("Spawning new " + newName);
-            spawn.spawnCreep(unit["parts"], newName, {
-              memory: { role: unit["role"] },
-            });
+            if (unit["role"] == "remoteBuilder") {
+              var newName = unit["role"] + Game.time;
+              const destinationRoom = num_of_units < 2 ? "E14N42" : "E16N42";
+              console.log("Spawning new " + newName);
+              spawn.spawnCreep(unit["parts"], newName, {
+                memory: { role: unit["role"], destination: destinationRoom },
+              });
+            } else if (unit["role"] == "claimer") {
+              var newName = unit["role"] + Game.time;
+              const destinationRoom = num_of_units < 1 ? "E15N42" : "E16N41";
+              console.log("Spawning new " + newName);
+              spawn.spawnCreep(unit["parts"], newName, {
+                memory: { role: unit["role"], destination: destinationRoom },
+              });
+            } else {
+              var newName = unit["role"] + Game.time;
+              console.log("Spawning new " + newName);
+              spawn.spawnCreep(unit["parts"], newName, {
+                memory: { role: unit["role"] },
+              });
+            }
           }
           break;
         }

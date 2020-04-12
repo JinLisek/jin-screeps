@@ -1,7 +1,9 @@
 const claimer = {
   run: function (creep) {
-    const routeToReservableRoom = Game.map.findRoute(creep.room, "E15N42");
-    console.log("CLAIMER route length = " + routeToReservableRoom.length);
+    const routeToReservableRoom = Game.map.findRoute(
+      creep.room,
+      creep.memory.destination
+    );
     if (routeToReservableRoom.length > 0) {
       const exit = creep.pos.findClosestByRange(routeToReservableRoom[0].exit);
       creep.moveTo(exit);

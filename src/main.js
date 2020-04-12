@@ -5,6 +5,7 @@ const miner = require("roles_miner");
 const repairer = require("roles_repairer");
 const harvester = require("roles_harvester");
 const claimer = require("roles_claimer");
+const remoteBuilder = require("roles_remoteBuilder");
 const spawner = require("buildings_spawner");
 
 module.exports.loop = function () {
@@ -15,24 +16,20 @@ module.exports.loop = function () {
 
     if (creep.memory.role == "hauler") {
       hauler.run(creep);
-    }
-    if (creep.memory.role == "upgrader") {
+    } else if (creep.memory.role == "upgrader") {
       upgrader.run(creep);
-    }
-    if (creep.memory.role == "builder") {
+    } else if (creep.memory.role == "builder") {
       builder.run(creep);
-    }
-    if (creep.memory.role == "miner") {
+    } else if (creep.memory.role == "miner") {
       miner.run(creep);
-    }
-    if (creep.memory.role == "repairer") {
+    } else if (creep.memory.role == "repairer") {
       repairer.run(creep);
-    }
-    if (creep.memory.role == "harvester") {
+    } else if (creep.memory.role == "harvester") {
       harvester.run(creep);
-    }
-    if (creep.memory.role == "claimer") {
+    } else if (creep.memory.role == "claimer") {
       claimer.run(creep);
+    } else if (creep.memory.role == "remoteBuilder") {
+      remoteBuilder.run(creep);
     }
   }
 };
