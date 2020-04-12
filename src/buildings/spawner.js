@@ -56,7 +56,11 @@ const spawner = {
         if (!Game.creeps[name]) {
           if (Memory.creeps[name]["role"] == "miner") {
             const sourceId = Memory.creeps[name]["source"];
-            if (sourceId != undefined) {
+            if (
+              sourceId != undefined &&
+              sourceId != null &&
+              Memory["rooms"][spawn.room.name]["sources"][sourceId]
+            ) {
               Memory["rooms"][spawn.room.name]["sources"][sourceId][
                 "miner"
               ] = null;
@@ -77,32 +81,67 @@ const spawner = {
             creep.memory.homeRoom == spawn.room.name
         ).length;
 
-        if (num_of_units < unit["max_num"]) {
-          var bodyParts = unit["parts"];
-          while (costOfBody(bodyParts) > spawn.room.energyCapacityAvailable) {
-            bodyParts.pop();
-          }
-          if (costOfBody(unit["parts"]) <= spawn.room.energyAvailable) {
-            if (unit["role"] == "claimer") {
+        if (unit["role"] == "miner") {
+          if (num_of_units < spawn.room.find(FIND_SOURCES).length) {
+            let bodyParts = unit["parts"];
+            while (costOfBody(bodyParts) > spawn.room.energyCapacityAvailable) {
+              bodyParts.pop();
+            }
+            if (costOfBody(bodyParts) <= spawn.room.energyAvailable) {
               var newName = unit["role"] + Game.time;
-              const destinationRoom = num_of_units < 1 ? "E15N42" : "E16N41";
-              console.log("Spawning new " + newName);
-              spawn.spawnCreep(unit["parts"], newName, {
-                memory: {
-                  role: unit["role"],
-                  destination: destinationRoom,
-                  homeRoom: spawn.room.name,
-                },
-              });
-            } else {
-              var newName = unit["role"] + Game.time;
-              console.log("Spawning new " + newName);
-              spawn.spawnCreep(unit["parts"], newName, {
+              console.log(spawn.room.name + ": spawning new " + newName);
+              spawn.spawnCreep(bodyParts, newName, {
                 memory: { role: unit["role"], homeRoom: spawn.room.name },
               });
             }
+
+            break;
           }
-          break;
+        } else {
+          if (num_of_units < unit["max_num"]) {
+            let bodyParts = unit["parts"];
+            while (costOfBody(bodyParts) > spawn.room.energyCapacityAvailable) {
+              bodyParts.pop();
+            }
+            if (bodyParts.length < 1) {
+              break;
+            }
+            if (costOfBody(bodyParts) <= spawn.room.energyAvailable) {
+              if (unit["role"] == "claimer") {
+                const num_of_claimersForE15N42 = _.filter(
+                  Game.creeps,
+                  (creep) =>
+                    creep.memory.role == unit["role"] &&
+                    creep.memory.homeRoom == spawn.room.name &&
+                    creep.memory.destination == "E15N42"
+                ).length;
+                var newName = unit["role"] + Game.time;
+                const destinationRoom =
+                  num_of_claimersForE15N42 < 1 ? "E15N42" : "E16N41";
+                console.log(
+                  spawn.room.name +
+                    ": spawning new " +
+                    newName +
+                    " " +
+                    bodyParts
+                );
+                spawn.spawnCreep(bodyParts, newName, {
+                  memory: {
+                    role: unit["role"],
+                    destination: destinationRoom,
+                    homeRoom: spawn.room.name,
+                  },
+                });
+              } else {
+                var newName = unit["role"] + Game.time;
+                console.log(spawn.room.name + ": spawning new " + newName);
+                spawn.spawnCreep(bodyParts, newName, {
+                  memory: { role: unit["role"], homeRoom: spawn.room.name },
+                });
+              }
+            }
+            break;
+          }
         }
       }
 
