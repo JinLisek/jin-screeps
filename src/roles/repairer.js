@@ -9,14 +9,15 @@ const repairer = (creep) => {
   }
 
   if (creep.memory.repairing) {
-    const structuresInNeedOfRepair = creep.room.find(FIND_STRUCTURES, {
+    const strucInNeedOfRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+      maxRooms: 1,
       filter: (struct) =>
         struct.hits < struct.hitsMax && struct.structureType != STRUCTURE_WALL,
     });
 
-    if (structuresInNeedOfRepair.length > 0) {
-      if (creep.repair(structuresInNeedOfRepair[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(structuresInNeedOfRepair[0], {
+    if (strucInNeedOfRepair) {
+      if (creep.repair(strucInNeedOfRepair) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(strucInNeedOfRepair, {
           visualizePathStyle: { stroke: "#ffffff" },
         });
       }
