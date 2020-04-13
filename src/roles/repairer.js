@@ -9,22 +9,36 @@ const repairer = (creep) => {
   }
 
   if (creep.memory.repairing) {
-    const strucInNeedOfRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-      maxRooms: 1,
-      filter: (struct) =>
-        struct.hits < struct.hitsMax && struct.structureType != STRUCTURE_WALL,
-    });
-
-    if (strucInNeedOfRepair) {
-      if (creep.repair(strucInNeedOfRepair) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(strucInNeedOfRepair, {
-          visualizePathStyle: { stroke: "#ffffff" },
-        });
+    if (creep.memory.targetId) {
+      const repairTarget = Game.getObjectById(creep.memory.targetId);
+      if (repairTarget && repairTarget.hits < repairTarget.hitsMax) {
+        if (creep.repair(repairTarget) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(repairTarget, {
+            maxRooms: 1,
+            visualizePathStyle: { stroke: "#ffffff" },
+          });
+        }
+      } else {
+        delete creep.memory.targetId;
       }
     } else {
-      creep.moveTo(16, 17);
+      const structsInNeedOfRepair = creep.room.find(FIND_STRUCTURES, {
+        filter: (struct) => struct.hits < struct.hitsMax,
+      });
+
+      _.sortBy(structsInNeedOfRepair, (struct) => {
+        return struct.structureType == STRUCTURE_WALL || struct.structureType == STRUCTURE_WALL
+          ? struct.hits / struct.hitsMax + 0.5
+          : struct.hits / struct.hitsMax;
+      });
+
+      const structToRepair = structsInNeedOfRepair[structsInNeedOfRepair.length - 1];
+      if (structToRepair) {
+        creep.memory.targetId = structToRepair.id;
+      }
     }
   } else {
+    delete creep.memory.targetId;
     finders.collectEnergyByCreep(creep);
   }
 };
