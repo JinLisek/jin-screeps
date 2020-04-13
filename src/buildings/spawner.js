@@ -56,13 +56,13 @@ const unit_configs = [
   {
     parts: [WORK, WORK, CARRY, MOVE, CARRY, MOVE],
     role: "repairer",
-    max_num: 2,
+    max_num: 3,
     shouldSpawn: defaultShouldSpawn,
   },
   {
     parts: [WORK, WORK, CARRY, MOVE, CARRY, MOVE],
     role: "builder",
-    max_num: 2,
+    max_num: 3,
     shouldSpawn: defaultShouldSpawn,
   },
   {
