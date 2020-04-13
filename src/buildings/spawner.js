@@ -76,8 +76,15 @@ const unit_configs = [
   {
     parts: [CLAIM, MOVE],
     role: "claimer",
-    max_num: 4,
-    shouldSpawn: defaultShouldSpawn,
+    max_num: 6,
+    shouldSpawn: (room, unitConfig) => {
+      const numOfAllClaimers = _.filter(
+        Game.creeps,
+        (creep) => creep.memory.role == unitConfig["role"]
+      ).length;
+
+      return numOfAllClaimers < unitConfig["max_num"];
+    },
   },
 ];
 
@@ -116,26 +123,31 @@ const spawner = () => {
         }
         if (costOfBody(bodyParts) <= spawn.room.energyAvailable) {
           if (unit["role"] == "claimer") {
-            const num_of_claimersForE15N42 = _.filter(
-              Game.creeps,
-              (creep) =>
-                creep.memory.role == unit["role"] &&
-                creep.memory.homeRoom == spawn.room.name &&
-                creep.memory.destination == "E15N42"
-            ).length;
-            const newName = unit["role"] + Game.time;
-            const destinationRoom =
-              num_of_claimersForE15N42 < 2 ? "E15N42" : "E16N41";
-            console.log(
-              spawn.room.name + ": spawning new " + newName + " " + bodyParts
-            );
-            spawn.spawnCreep(bodyParts, newName, {
-              memory: {
-                role: unit["role"],
-                destination: destinationRoom,
-                homeRoom: spawn.room.name,
-              },
-            });
+            for (const reservation in Memory.reservations) {
+              const numOfClaimersInRoom = _.filter(
+                Game.creeps,
+                (creep) =>
+                  creep.memory.role == unit["role"] &&
+                  creep.memory.destination == reservation
+              ).length;
+              if (numOfClaimersInRoom < 2) {
+                const newName = unit["role"] + Game.time;
+                console.log(
+                  spawn.room.name +
+                    ": spawning new " +
+                    newName +
+                    " " +
+                    bodyParts
+                );
+                spawn.spawnCreep(bodyParts, newName, {
+                  memory: {
+                    role: unit["role"],
+                    destination: reservation,
+                    homeRoom: spawn.room.name,
+                  },
+                });
+              }
+            }
           } else {
             const newName = unit["role"] + Game.time;
             console.log(spawn.room.name + ": spawning new " + newName);
