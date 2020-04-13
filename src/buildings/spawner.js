@@ -1,5 +1,4 @@
-const costOfBody = (body) =>
-  body.reduce((cost, part) => cost + BODYPART_COST[part], 0);
+const costOfBody = (body) => body.reduce((cost, part) => cost + BODYPART_COST[part], 0);
 
 const calculateAvailableBodyInRoom = (body, room) => {
   let bodyParts = body.slice();
@@ -12,9 +11,7 @@ const calculateAvailableBodyInRoom = (body, room) => {
 const defaultShouldSpawn = (room, unitConfig) => {
   const numOfUnitsInRoom = _.filter(
     Game.creeps,
-    (creep) =>
-      creep.memory.role == unitConfig["role"] &&
-      creep.memory.homeRoom == room.name
+    (creep) => creep.memory.role == unitConfig["role"] && creep.memory.homeRoom == room.name
   ).length;
 
   return numOfUnitsInRoom < unitConfig["max_num"];
@@ -26,10 +23,7 @@ const unit_configs = [
     role: "harvester",
     max_num: 2,
     shouldSpawn: (room, unitConfig) => {
-      const numOfAllUnitsInRoom = _.filter(
-        Game.creeps,
-        (creep) => creep.memory.homeRoom == room.name
-      ).length;
+      const numOfAllUnitsInRoom = _.filter(Game.creeps, (creep) => creep.memory.homeRoom == room.name).length;
 
       return numOfAllUnitsInRoom < unitConfig["max_num"];
     },
@@ -41,9 +35,7 @@ const unit_configs = [
     shouldSpawn: (room, unitConfig) => {
       const numOfMinersInRoom = _.filter(
         Game.creeps,
-        (creep) =>
-          creep.memory.role == unitConfig["role"] &&
-          creep.memory.homeRoom == room.name
+        (creep) => creep.memory.role == unitConfig["role"] && creep.memory.homeRoom == room.name
       ).length;
 
       return numOfMinersInRoom < Object.keys(room.memory["sources"]).length;
@@ -78,10 +70,7 @@ const unit_configs = [
     role: "claimer",
     max_num: 6,
     shouldSpawn: (room, unitConfig) => {
-      const numOfAllClaimers = _.filter(
-        Game.creeps,
-        (creep) => creep.memory.role == unitConfig["role"]
-      ).length;
+      const numOfAllClaimers = _.filter(Game.creeps, (creep) => creep.memory.role == unitConfig["role"]).length;
 
       return numOfAllClaimers < unitConfig["max_num"];
     },
@@ -89,19 +78,13 @@ const unit_configs = [
 ];
 
 const spawner = () => {
-  const spawns = [
-    Game.spawns["Spawn1"],
-    Game.spawns["Emperoria"],
-    Game.spawns["Caesaria"],
-  ];
+  const spawns = [Game.spawns["Spawn1"], Game.spawns["Emperoria"], Game.spawns["Caesaria"]];
 
   for (const name in Memory.creeps) {
     if (!Game.creeps[name]) {
       if (Memory.creeps[name]["role"] == "miner") {
         const sourceId = Memory.creeps[name]["source"];
-        Memory["rooms"][Memory.creeps[name]["homeRoom"]]["sources"][sourceId][
-          "miner"
-        ] = null;
+        Memory["rooms"][Memory.creeps[name]["homeRoom"]]["sources"][sourceId]["miner"] = null;
       }
 
       delete Memory.creeps[name];
@@ -114,10 +97,7 @@ const spawner = () => {
       const unit = unit_configs[i];
 
       if (unit["shouldSpawn"](spawn.room, unit)) {
-        const bodyParts = calculateAvailableBodyInRoom(
-          unit["parts"],
-          spawn.room
-        );
+        const bodyParts = calculateAvailableBodyInRoom(unit["parts"], spawn.room);
         if (bodyParts.length < 1) {
           break;
         }
@@ -126,19 +106,11 @@ const spawner = () => {
             for (const reservation in Memory.reservations) {
               const numOfClaimersInRoom = _.filter(
                 Game.creeps,
-                (creep) =>
-                  creep.memory.role == unit["role"] &&
-                  creep.memory.destination == reservation
+                (creep) => creep.memory.role == unit["role"] && creep.memory.destination == reservation
               ).length;
               if (numOfClaimersInRoom < 2) {
                 const newName = unit["role"] + Game.time;
-                console.log(
-                  spawn.room.name +
-                    ": spawning new " +
-                    newName +
-                    " " +
-                    bodyParts
-                );
+                console.log(spawn.room.name + ": spawning new " + newName + " " + bodyParts);
                 spawn.spawnCreep(bodyParts, newName, {
                   memory: {
                     role: unit["role"],
@@ -162,12 +134,10 @@ const spawner = () => {
 
     if (spawn.spawning) {
       const spawningCreep = Game.creeps[spawn.spawning.name];
-      spawn.room.visual.text(
-        "🛠️" + spawningCreep.memory.role,
-        spawn.pos.x + 1,
-        spawn.pos.y,
-        { align: "left", opacity: 0.8 }
-      );
+      spawn.room.visual.text("🛠️" + spawningCreep.memory.role, spawn.pos.x + 1, spawn.pos.y, {
+        align: "left",
+        opacity: 0.8,
+      });
     }
   });
 };
