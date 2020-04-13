@@ -1,20 +1,21 @@
 const collectEnergyByCreep = (creep) => {
-  const containers = creep.room.find(FIND_STRUCTURES, {
+  const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+    maxRooms: 1,
     filter: (structure) =>
-      structure.structureType == STRUCTURE_CONTAINER &&
+      (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
       structure.store.getUsedCapacity(RESOURCE_ENERGY) > 100,
   });
-  if (containers.length > 0) {
-    if (creep.withdraw(containers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(containers[0], {
+  if (container) {
+    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(container, {
         visualizePathStyle: { stroke: "#ffaa00" },
         maxRooms: 1,
       });
     }
   } else {
-    const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
-    if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(droppedEnergy[0], {
+    const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+    if (droppedEnergy && creep.pickup(droppedEnergy) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(droppedEnergy, {
         visualizePathStyle: { stroke: "#ffaa00" },
         maxRooms: 1,
       });

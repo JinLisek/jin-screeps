@@ -9,7 +9,8 @@ const hauler = (creep) => {
   }
 
   if (creep.memory.hauling) {
-    const targets = creep.room.find(FIND_STRUCTURES, {
+    const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+      maxRooms: 1,
       filter: (structure) => {
         return (
           (structure.structureType == STRUCTURE_EXTENSION ||
@@ -19,14 +20,28 @@ const hauler = (creep) => {
         );
       },
     });
-    if (targets.length > 0) {
-      if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(targets[0], {
+    if (target) {
+      if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(target, {
           visualizePathStyle: { stroke: "#ffffff" },
         });
       }
     } else {
-      creep.moveTo(24, 32);
+      const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        maxRooms: 1,
+        filter: (structure) => {
+          return structure.structureType == STRUCTURE_STORAGE && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+        },
+      });
+      if (target) {
+        if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, {
+            visualizePathStyle: { stroke: "#ffffff" },
+          });
+        }
+      } else {
+        creep.moveTo(24, 32);
+      }
     }
   } else {
     finders.collectEnergyByCreep(creep);
