@@ -2,7 +2,7 @@ const costOfBody = (body) =>
   body.reduce((cost, part) => cost + BODYPART_COST[part], 0);
 
 const calculateAvailableBodyInRoom = (body, room) => {
-  let bodyParts = body;
+  let bodyParts = body.slice();
   while (costOfBody(bodyParts) > room.energyCapacityAvailable) {
     bodyParts.pop();
   }
@@ -21,6 +21,19 @@ const defaultShouldSpawn = (room, unitConfig) => {
 };
 
 const unit_configs = [
+  {
+    parts: [WORK, WORK, CARRY, MOVE],
+    role: "harvester",
+    max_num: 2,
+    shouldSpawn: (room, unitConfig) => {
+      const numOfAllUnitsInRoom = _.filter(
+        Game.creeps,
+        (creep) => creep.memory.homeRoom == room.name
+      ).length;
+
+      return numOfAllUnitsInRoom < unitConfig["max_num"];
+    },
+  },
   {
     parts: [MOVE, WORK, WORK, WORK, WORK, WORK],
     role: "miner",
@@ -45,7 +58,7 @@ const unit_configs = [
   {
     parts: [WORK, WORK, CARRY, MOVE, CARRY, MOVE],
     role: "upgrader",
-    max_num: 2,
+    max_num: 3,
     shouldSpawn: defaultShouldSpawn,
   },
   {
@@ -67,13 +80,6 @@ const unit_configs = [
     shouldSpawn: defaultShouldSpawn,
   },
 ];
-
-const harvester_config = {
-  parts: [WORK, WORK, CARRY, MOVE],
-  role: "harvester",
-  max_num: 1,
-  shouldSpawn: defaultShouldSpawn,
-};
 
 const spawner = () => {
   const spawns = [

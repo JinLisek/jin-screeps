@@ -1,12 +1,13 @@
 const harvester = (creep) => {
+  if (creep.memory.hauling == undefined) {
+    creep.memory.hauling = false;
+  }
   if (creep.memory.hauling && creep.store[RESOURCE_ENERGY] == 0) {
     creep.memory.hauling = false;
   }
   if (!creep.memory.hauling && creep.store.getFreeCapacity() == 0) {
     creep.memory.hauling = true;
   }
-
-  console.log(creep.memory.hauling);
 
   if (creep.memory.hauling) {
     const targets = creep.room.find(FIND_STRUCTURES, {
